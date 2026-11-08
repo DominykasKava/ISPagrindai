@@ -1,14 +1,62 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="lt">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Naudotojai</title>
+    <title>Naudotojų peržiūros langas</title>
+    <link rel="stylesheet" href="../assets/styles.css">
+    <script src="../assets/app.js" defer></script>
 </head>
 <body>
-    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; gap: 10px; font-family: sans-serif;">
-        <a href="Naud_red.html" style="display: inline-block; padding: 10px 20px; background-color: #007BFF; color: white; text-decoration: none; border-radius: 5px;">Redaguoti</a>
-        <a href="Naud_sal.html" style="display: inline-block; padding: 10px 20px; background-color: #007BFF; color: white; text-decoration: none; border-radius: 5px;">Šalinti</a>
-    </div>
+    <header class="topbar">
+        <div class="brand"><span class="brand-mark">P</span>Parktronikai <small>Parkavimo vietų informacinė sistema</small></div>
+        <span class="role-badge" data-role-label></span>
+    </header>
+
+    <main class="container">
+        <div class="window-header">
+            <div>
+                <div class="window-kind">Puslapis</div>
+                <h1>Naudotojų peržiūros langas</h1>
+                <p class="window-desc">Visų sistemos naudotojų sąrašas.</p>
+            </div>
+            <a class="btn btn-secondary btn-sm" href="Admin_pagr.html" data-back>Grįžti</a>
+        </div>
+
+        <section class="card">
+            <div class="field" style="max-width:320px;margin-bottom:12px">
+                <label for="search">Paieška</label>
+                <input id="search" type="search" placeholder="Vardas, pavardė arba el. paštas">
+            </div>
+            <div class="table-wrap">
+                <table class="table" id="users">
+                    <thead><tr><th>Vardas, pavardė</th><th>El. paštas</th><th>Telefono numeris</th><th>Rolė</th><th>Registracijos data</th><th></th></tr></thead>
+                    <tbody>
+                        <tr><td>Jonas Jonaitis</td><td>jonas.jonaitis@example.lt</td><td>+370 612 34567</td><td><span class="badge badge-off">Vairuotojas</span></td><td>2026-02-14</td>
+                            <td><div class="row-actions"><a class="btn btn-secondary btn-sm" href="Naud_red.html" title="Naudotojo paskyros redagavimo langas">Redaguoti</a><a class="btn btn-danger btn-sm" href="Naud_sal.html" title="Naudotojo paskyros šalinimo langas">Šalinti</a></div></td></tr>
+                        <tr><td>Ona Petraitė</td><td>ona.petraite@example.lt</td><td>+370 655 11223</td><td><span class="badge badge-info">Aikštelės savininkas</span></td><td>2026-03-02</td>
+                            <td><div class="row-actions"><a class="btn btn-secondary btn-sm" href="Naud_red.html" title="Naudotojo paskyros redagavimo langas">Redaguoti</a><a class="btn btn-danger btn-sm" href="Naud_sal.html" title="Naudotojo paskyros šalinimo langas">Šalinti</a></div></td></tr>
+                        <tr><td>Tomas Kazlauskas</td><td>tomas.k@example.lt</td><td>+370 699 87654</td><td><span class="badge badge-off">Vairuotojas</span></td><td>2026-04-19</td>
+                            <td><div class="row-actions"><a class="btn btn-secondary btn-sm" href="Naud_red.html" title="Naudotojo paskyros redagavimo langas">Redaguoti</a><a class="btn btn-danger btn-sm" href="Naud_sal.html" title="Naudotojo paskyros šalinimo langas">Šalinti</a></div></td></tr>
+                        <tr><td>Rūta Žukauskienė</td><td>ruta.z@example.lt</td><td>+370 600 44556</td><td><span class="badge badge-ok">Administratorius</span></td><td>2026-01-08</td>
+                            <td><div class="row-actions"><a class="btn btn-secondary btn-sm" href="Naud_red.html" title="Naudotojo paskyros redagavimo langas">Redaguoti</a><a class="btn btn-danger btn-sm" href="Naud_sal.html" title="Naudotojo paskyros šalinimo langas">Šalinti</a></div></td></tr>
+                        <tr><td>Mindaugas Šimkus</td><td>m.simkus@example.lt</td><td>+370 611 99887</td><td><span class="badge badge-info">Aikštelės savininkas</span></td><td>2026-05-27</td>
+                            <td><div class="row-actions"><a class="btn btn-secondary btn-sm" href="Naud_red.html" title="Naudotojo paskyros redagavimo langas">Redaguoti</a><a class="btn btn-danger btn-sm" href="Naud_sal.html" title="Naudotojo paskyros šalinimo langas">Šalinti</a></div></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.getElementById('search').addEventListener('input', function () {
+            var q = this.value.toLowerCase();
+            document.querySelectorAll('#users tbody tr').forEach(function (tr) {
+                tr.hidden = q && tr.textContent.toLowerCase().indexOf(q) === -1;
+            });
+        });
+    });
+    </script>
 </body>
 </html>

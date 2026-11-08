@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PaySera sąsaja</title>
+    <link rel="stylesheet" href="../assets/styles.css">
+    <script src="../assets/app.js" defer></script>
+</head>
+<body>
+    <header class="topbar external">
+        <div class="brand">Mokėjimų sistema <small>išorinė sistema</small></div>
+    </header>
+    <div class="external-banner">
+        Išorinės sistemos imitacija. Į šį langą nuorodų nėra – navigavimo plane „PaySera sąsaja“ sąmoningai neprijungta (dėstytojų nurodymu).
+    </div>
+
+    <main class="container narrow">
+        <div class="window-header external">
+            <div>
+                <div class="window-kind">Išorinės sistemos imitacija</div>
+                <h1>PaySera sąsaja</h1>
+                <p class="window-desc">Vienkartinis mokėjimas per trečiosios šalies mokėjimo sistemą.</p>
+            </div>
+        </div>
+
+        <section class="card">
+            <h2>Mokėjimas</h2>
+            <dl class="kv">
+                <dt>Gavėjas</dt><dd>Parkavimo vietų informacinė sistema</dd>
+                <dt>Paskirtis</dt><dd>Parkavimas, B zona – Centras</dd>
+                <dt>Suma</dt><dd>1,50 €</dd>
+            </dl>
+            <h2 style="margin-top:16px">Mokėjimo būdas</h2>
+            <div class="stack">
+                <label class="choice"><input type="radio" name="m" checked> Elektroninė bankininkystė</label>
+                <label class="choice"><input type="radio" name="m"> Mokėjimo kortelė</label>
+            </div>
+            <div class="form-actions">
+                <button type="button" class="btn btn-primary" id="ok">Mokėti</button>
+                <button type="button" class="btn btn-secondary" id="fail">Atšaukti mokėjimą</button>
+            </div>
+        </section>
+        <div class="alert alert-success" id="res-ok" hidden><span class="icon">✓</span><span>Mokėjimas atliktas. Mokėjimo būsena perduota sistemai.</span></div>
+        <div class="alert alert-error" id="res-fail" hidden><span class="icon">✕</span><span>Mokėjimas atšauktas. Mokėjimo būsena perduota sistemai.</span></div>
+    </main>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.getElementById('ok').onclick = function () { PT.hide('res-fail'); PT.show('res-ok'); };
+        document.getElementById('fail').onclick = function () { PT.hide('res-ok'); PT.show('res-fail'); };
+    });
+    </script>
+</body>
+</html>

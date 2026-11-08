@@ -1,11 +1,59 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="lt">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Automobilio pasirinkimas</title>
+    <title>Automobilio pasirinkimo langas</title>
+    <link rel="stylesheet" href="../assets/styles.css">
+    <script src="../assets/app.js" defer></script>
 </head>
-<body>
-    <h1>Automobilio pasirinkimas</h1>>
+<body class="dialog-page">
+    <iframe class="dialog-bg" src="Zon_info.html" tabindex="-1" aria-hidden="true" inert></iframe>
+    <div class="dialog-overlay">
+        <form class="dialog" id="car-form" role="dialog" aria-modal="true" aria-labelledby="dlg-title">
+            <div class="window-header">
+                <div>
+                    <div class="window-kind">Dialogas</div>
+                    <h1 id="dlg-title">Automobilio pasirinkimo langas</h1>
+                </div>
+            </div>
+            <div class="dialog-body">
+                <div class="alert alert-error" id="unpaid" hidden><span class="icon">✕</span><span>Su pasirinktu automobiliu yra aktyvus arba neapmokėtas parkavimas. Pasirinkite kitą automobilį.</span></div>
+                <p>Paskyroje yra daugiau nei vienas automobilis. Pasirinkite, kuriuo automobiliu parkuositės zonoje <strong id="zname"></strong>.</p>
+                <div class="stack" id="car-list"></div>
+                <div class="mock">
+                    <strong>Prototipo imitacija:</strong>
+                    <label><input type="checkbox" id="mock-unpaid"> pasirinktas automobilis turi aktyvų arba neapmokėtą parkavimą</label>
+                </div>
+            </div>
+            <div class="dialog-actions">
+                <a class="btn btn-secondary" href="Zon_info.html" data-close>Atšaukti</a>
+                <button class="btn btn-primary" type="submit">Pasirinkti</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var z = PT.currentZone();
+        var current = PT.currentCar().Valstybinis_numeris;
+        document.getElementById('zname').textContent = z.Zonos_pavadinimas;
+        document.getElementById('car-list').innerHTML = PT.CARS.map(function (c) {
+            return '<label class="choice"><input type="radio" name="car" value="' + c.Valstybinis_numeris + '"' +
+                (c.Valstybinis_numeris === current ? ' checked' : '') + '> <span class="plate">' + c.Valstybinis_numeris +
+                '</span> ' + PT.esc(c.Marke + ' ' + c.Modelis) + ' <span class="hint">(' + c.Kuro_tipas + ')</span></label>';
+        }).join('');
+        document.getElementById('car-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+            // 2.2.7: tikrinama, ar automobilis neturi aktyvių arba neapmokėtų parkavimų
+            if (document.getElementById('mock-unpaid').checked) { PT.show('unpaid'); return; }
+            var picked = document.querySelector('input[name="car"]:checked');
+            if (picked) PT.set('car', picked.value);
+            PT.set('picked', z.id);
+            // Dialogas uždaromas – grąžinama į Zonos informacijos langą
+            PT.goTo('Zon_info.html', true);
+        });
+    });
+    </script>
 </body>
 </html>

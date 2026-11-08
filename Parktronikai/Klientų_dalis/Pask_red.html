@@ -1,11 +1,91 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="lt">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Paskyra</title>
+    <title>Paskyros redagavimo langas</title>
+    <link rel="stylesheet" href="../assets/styles.css">
+    <script src="../assets/app.js" defer></script>
 </head>
 <body>
-    <h1>Paskyros redagavimas</h1>>
+    <header class="topbar">
+        <div class="brand"><span class="brand-mark">P</span>Parktronikai <small>Parkavimo vietų informacinė sistema</small></div>
+        <span class="role-badge" data-role-label></span>
+    </header>
+
+    <main class="container">
+        <div class="window-header">
+            <div>
+                <div class="window-kind">Puslapis</div>
+                <h1>Paskyros redagavimo langas</h1>
+                <p class="window-desc">Redagavimo forma su esamais duomenimis.</p>
+            </div>
+            <a class="btn btn-secondary btn-sm" href="Pask_perz.html" data-back>Grįžti</a>
+        </div>
+
+        <form novalidate data-result="save-ok">
+            <div class="alert alert-success" id="save-ok" hidden><span class="icon">✓</span><span>Paskyros duomenys sėkmingai atnaujinti.</span></div>
+            <div class="alert alert-error" data-form-error hidden><span class="icon">✕</span><span>Pažymėtų laukų negalima išsaugoti.</span></div>
+
+            <section class="card">
+                <h2>Asmeniniai duomenys</h2>
+                <div class="form-grid">
+                    <div class="field"><label for="p-vardas">Vardas</label><input id="p-vardas" type="text" value="Jonas" data-required></div>
+                    <div class="field"><label for="p-pavarde">Pavardė</label><input id="p-pavarde" type="text" value="Jonaitis" data-required></div>
+                    <div class="field"><label for="p-email">El. paštas</label><input id="p-email" type="email" value="jonas.jonaitis@example.lt" data-required></div>
+                    <div class="field"><label for="p-tel">Telefono numeris</label><input id="p-tel" type="tel" value="+370 612 34567"></div>
+                </div>
+            </section>
+
+            <section class="card">
+                <h2>Transporto priemonės</h2>
+                <div class="table-wrap">
+                    <table class="table">
+                        <thead><tr><th>Valstybinis numeris</th><th>Markė</th><th>Modelis</th><th>Tipas</th><th>Kuras</th><th></th></tr></thead>
+                        <tbody id="cars">
+                            <tr><td><input type="text" value="ABC 123" aria-label="Valstybinis numeris"></td><td><input type="text" value="Toyota" aria-label="Markė"></td><td><input type="text" value="Corolla" aria-label="Modelis"></td><td><input type="text" value="Lengvasis" aria-label="Tipas"></td><td><input type="text" value="Hibridas" aria-label="Kuro tipas"></td><td><button type="button" class="btn btn-secondary btn-sm" data-remove-row>Pašalinti</button></td></tr>
+                            <tr><td><input type="text" value="KLM 456" aria-label="Valstybinis numeris"></td><td><input type="text" value="Volkswagen" aria-label="Markė"></td><td><input type="text" value="Golf" aria-label="Modelis"></td><td><input type="text" value="Lengvasis" aria-label="Tipas"></td><td><input type="text" value="Dyzelinas" aria-label="Kuro tipas"></td><td><button type="button" class="btn btn-secondary btn-sm" data-remove-row>Pašalinti</button></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="form-actions"><button type="button" class="btn btn-secondary btn-sm" id="add-car">+ Pridėti transporto priemonę</button></div>
+            </section>
+
+            <details class="card">
+                <summary>Keisti slaptažodį (neprivaloma)</summary>
+                <div class="form-grid">
+                    <div class="field"><label for="p-old">Dabartinis slaptažodis</label><input id="p-old" type="password"></div>
+                    <div class="field"><label for="p-new">Naujas slaptažodis</label><input id="p-new" type="password"></div>
+                    <div class="field"><label for="p-new2">Pakartokite naują slaptažodį</label><input id="p-new2" type="password" data-match="p-new"></div>
+                </div>
+            </details>
+
+            <div class="form-actions">
+                <button class="btn btn-primary" type="submit">Išsaugoti</button>
+                <a class="btn btn-secondary" href="Pask_perz.html" data-back>Atšaukti</a>
+            </div>
+        </form>
+    </main>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var tbody = document.getElementById('cars');
+        var template = tbody.rows[0].cloneNode(true);
+        tbody.addEventListener('click', function (e) {
+            if (e.target.matches('[data-remove-row]')) e.target.closest('tr').remove();
+        });
+        document.getElementById('add-car').addEventListener('click', function () {
+            var tr = template.cloneNode(true);
+            tr.querySelectorAll('input').forEach(function (i) { i.value = ''; });
+            tbody.appendChild(tr);
+            tr.querySelector('input').focus();
+        });
+        // Jei keičiamas slaptažodis – dabartinis slaptažodis privalomas
+        document.getElementById('p-new').addEventListener('input', function () {
+            var old = document.getElementById('p-old');
+            if (this.value) old.setAttribute('data-required', ''); else old.removeAttribute('data-required');
+        });
+    });
+    </script>
 </body>
 </html>

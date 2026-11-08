@@ -1,13 +1,63 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="lt">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Šablonao kurimas</title>
+    <title>Šablono kūrimo langas</title>
+    <link rel="stylesheet" href="../assets/styles.css">
+    <script src="../assets/app.js" defer></script>
 </head>
 <body>
-    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; gap: 10px; font-family: sans-serif;">
-        <a href="Sabl_diz.html" style="display: inline-block; padding: 10px 20px; background-color: #007BFF; color: white; text-decoration: none; border-radius: 5px;">Šablono dizainas</a>
-    </div>
+    <header class="topbar">
+        <div class="brand"><span class="brand-mark">P</span>Parktronikai <small>Parkavimo vietų informacinė sistema</small></div>
+        <span class="role-badge" data-role-label></span>
+    </header>
+
+    <main class="container narrow">
+        <div class="window-header">
+            <div>
+                <div class="window-kind">Puslapis</div>
+                <h1>Šablono kūrimo langas</h1>
+                <p class="window-desc">Įveskite šablono duomenis. Kitame žingsnyje pasirinksite dizainą.</p>
+            </div>
+            <a class="btn btn-secondary btn-sm" href="Sabl_perz.html" data-back>Grįžti</a>
+        </div>
+
+        <!-- Po sėkmingos validacijos -> Šablono dizaino langas -->
+        <form class="card" id="tpl-form" action="Sabl_diz.html" method="get" novalidate>
+            <div class="alert alert-error" data-form-error hidden><span class="icon">✕</span><span data-text>Užpildykite privalomus laukus.</span></div>
+            <div class="stack">
+                <div class="field"><label for="t-name">Pavadinimas</label><input id="t-name" type="text" data-required placeholder="pvz. Zonos tarifo pakeitimas"></div>
+                <div class="field">
+                    <label for="t-type">Tipas</label>
+                    <select id="t-type"><option>Priminimas</option><option>Įspėjimas</option><option selected>Informacinis</option></select>
+                </div>
+                <div class="field"><label for="t-subject">Tema</label><input id="t-subject" type="text" data-required></div>
+                <div class="field"><label for="t-body">Turinys</label><textarea id="t-body" data-required placeholder="Galima naudoti {vardas}, {zona}, {suma}"></textarea></div>
+            </div>
+            <div class="form-actions">
+                <button class="btn btn-primary" type="submit" title="Šablono dizaino langas">Toliau: dizainas</button>
+                <a class="btn btn-secondary" href="Sabl_perz.html" data-back>Atšaukti</a>
+            </div>
+        </form>
+    </main>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var EXISTING = ['parkavimo laikas baigiasi', 'neapmokėtas parkavimas', 'bendras informacinis pranešimas', 'užklausa patvirtinta'];
+        var form = document.getElementById('tpl-form');
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+            if (!PT.validateForm(form)) { PT.showFormError(form, 'Užpildykite privalomus laukus.'); return; }
+            var name = document.getElementById('t-name');
+            if (EXISTING.indexOf(name.value.trim().toLowerCase()) !== -1) {
+                PT.showFormError(form, 'Šablonas tokiu pavadinimu jau egzistuoja – pavadinimas turi būti unikalus.');
+                return;
+            }
+            PT.set('tpl', JSON.stringify({ name: name.value, subject: document.getElementById('t-subject').value, body: document.getElementById('t-body').value }));
+            location.href = form.getAttribute('action');
+        });
+    });
+    </script>
 </body>
 </html>

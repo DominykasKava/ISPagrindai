@@ -1,13 +1,66 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="lt">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ataskaitos</title>
+    <title>Ataskaitų langas</title>
+    <link rel="stylesheet" href="../assets/styles.css">
+    <script src="../assets/app.js" defer></script>
 </head>
 <body>
-    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; gap: 10px; font-family: sans-serif;">
-        <a href="Atask_gen.html" style="display: inline-block; padding: 10px 20px; background-color: #007BFF; color: white; text-decoration: none; border-radius: 5px;">Generuoti ataskaitą</a>
-    </div>
+    <header class="topbar">
+        <div class="brand"><span class="brand-mark">P</span>Parktronikai <small>Parkavimo vietų informacinė sistema</small></div>
+        <span class="role-badge" data-role-label></span>
+    </header>
+
+    <main class="container">
+        <div class="window-header">
+            <div>
+                <div class="window-kind">Puslapis</div>
+                <h1>Ataskaitų langas</h1>
+                <p class="window-desc">Sugeneruota ataskaita.</p>
+            </div>
+            <a class="btn btn-secondary btn-sm" href="Atask_gen.html" data-back>Grįžti</a>
+        </div>
+
+        <section class="card">
+            <dl class="kv">
+                <dt>Ataskaitos tipas</dt><dd id="r-type"></dd>
+                <dt>Objektas</dt><dd id="r-obj"></dd>
+                <dt>Laikotarpis</dt><dd id="r-period"></dd>
+                <dt>Sugeneruota</dt><dd id="r-date"></dd>
+            </dl>
+        </section>
+
+        <section class="card">
+            <div class="stats" style="margin-bottom:16px">
+                <div class="stat"><span class="hint label">Pasiparkavusių automobilių</span><span class="big-number">4 812</span></div>
+                <div class="stat"><span class="hint label">Bendra suma</span><span class="big-number">6 245,40 €</span></div>
+                <div class="stat"><span class="hint label">Vid. trukmė</span><span class="big-number">1 val. 9 min.</span></div>
+            </div>
+            <div class="table-wrap">
+                <table class="table">
+                    <thead><tr><th>Zona</th><th class="num">Pasiparkavusių automobilių</th><th class="num">Vid. trukmė</th><th class="num">Bendra suma</th></tr></thead>
+                    <tbody>
+                        <tr><td>A zona – Senamiestis</td><td class="num">2 140</td><td class="num">1 val. 12 min.</td><td class="num">3 852,00 €</td></tr>
+                        <tr><td>B zona – Centras</td><td class="num">1 488</td><td class="num">58 min.</td><td class="num">1 726,10 €</td></tr>
+                        <tr><td>C zona – Žaliakalnis</td><td class="num">1 184</td><td class="num">1 val. 40 min.</td><td class="num">667,30 €</td></tr>
+                    </tbody>
+                    <tfoot><tr><td>Iš viso</td><td class="num">4 812</td><td class="num">—</td><td class="num">6 245,40 €</td></tr></tfoot>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var r = { type: 'Zonų užimtumo', obj: 'Visos zonos', from: '2026-10-01', to: '2026-10-31' };
+        try { var s = JSON.parse(PT.get('report') || 'null'); if (s) r = s; } catch (e) { /* mock */ }
+        document.getElementById('r-type').textContent = r.type;
+        document.getElementById('r-obj').textContent = r.obj;
+        document.getElementById('r-period').textContent = r.from + ' – ' + r.to;
+        document.getElementById('r-date').textContent = new Date().toISOString().slice(0, 10);
+    });
+    </script>
 </body>
 </html>

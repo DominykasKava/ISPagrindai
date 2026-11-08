@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zonos redagavimo patvirtinimo langas</title>
+    <link rel="stylesheet" href="../assets/styles.css">
+    <script src="../assets/app.js" defer></script>
+</head>
+<body class="dialog-page">
+    <iframe class="dialog-bg" src="Zon_red.html" tabindex="-1" aria-hidden="true" inert></iframe>
+    <div class="dialog-overlay">
+        <form class="dialog" id="dlg" role="dialog" aria-modal="true" aria-labelledby="dlg-title" novalidate>
+            <div class="window-header">
+                <div>
+                    <div class="window-kind">Dialogas</div>
+                    <h1 id="dlg-title">Zonos redagavimo patvirtinimo langas</h1>
+                </div>
+            </div>
+            <div class="dialog-body">
+                <div class="alert alert-success" id="done" hidden><span class="icon">✓</span><span>Zona sėkmingai atnaujinta.</span></div>
+                <div class="alert alert-error" id="err" hidden><span class="icon">✕</span><span>Netinkami duomenys: pakeistos zonos ribos kertasi su kita zona.</span></div>
+                <div data-hide-on-success>
+                    <p>Ar patvirtinate zonos <strong id="zname"></strong> pakeitimus?</p>
+                    <div class="mock">
+                        <strong>Prototipo imitacija:</strong>
+                        <label><input type="checkbox" id="mock-err"> zonos ribos kertasi su kita zona</label>
+                    </div>
+                </div>
+            </div>
+            <div class="dialog-actions">
+                <a class="btn btn-secondary" href="Zon_red.html" data-close data-hide-on-success>Atšaukti</a>
+                <a class="btn btn-secondary" href="Zon_red.html" data-close data-show-on-success hidden>Uždaryti</a>
+                <button class="btn btn-primary" type="submit" data-hide-on-success>Patvirtinti pakeitimus</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.getElementById('zname').textContent = '„' + PT.currentZone().Zonos_pavadinimas + '“';
+        document.getElementById('dlg').addEventListener('submit', function (e) {
+            e.preventDefault();
+            if (document.getElementById('mock-err').checked) { PT.show('err'); return; }
+            PT.hide('err');
+            PT.showSuccess(this, 'done');
+        });
+    });
+    </script>
+</body>
+</html>

@@ -1,21 +1,86 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="lt">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AS Pagrindinis</title>
+    <title>Aikštelės savininko pagrindinis langas</title>
+    <link rel="stylesheet" href="../assets/styles.css">
+    <script src="../assets/app.js" defer></script>
 </head>
 <body>
-    <a href="..//Klientų_dalis/Vair_pagr.html" style="display: inline-block; padding: 10px 20px; background-color: #007BFF; color: white; text-decoration: none; border-radius: 5px;">Žemėlapis</a>
-    
-    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; gap: 10px; font-family: sans-serif;">
+    <header class="topbar">
+        <div class="brand"><span class="brand-mark">P</span>Parktronikai <small>Parkavimo vietų informacinė sistema</small></div>
+        <span class="role-badge" data-role-label></span>
+    </header>
 
-    <a href="Aiks_info.html" style="display: inline-block; padding: 10px 20px; background-color: #007BFF; color: white; text-decoration: none; border-radius: 5px;">Aikštelės informacija</a>
-    <a href="Aiks_regist.html" style="display: inline-block; padding: 10px 20px; background-color: #007BFF; color: white; text-decoration: none; border-radius: 5px;">Akštelės registracija</a>
-    <a href="Aiks_red.html" style="display: inline-block; padding: 10px 20px; background-color: #007BFF; color: white; text-decoration: none; border-radius: 5px;">Akštelės redagavimas</a>
-    <a href="Aiks_sal.html" style="display: inline-block; padding: 10px 20px; background-color: #007BFF; color: white; text-decoration: none; border-radius: 5px;">Akštelės šalinimas</a>
-    <a href="Auto_nr_ived.html" style="display: inline-block; padding: 10px 20px; background-color: #007BFF; color: white; text-decoration: none; border-radius: 5px;">Automobilių numerių įvedimas</a>
+    <main class="container">
+        <div class="window-header">
+            <div>
+                <div class="window-kind">Puslapis</div>
+                <h1>Aikštelės savininko pagrindinis langas</h1>
+                <p class="window-desc">Jūsų privačių aikštelių sąrašas.</p>
+            </div>        </div>
 
-    </div>
+        <div class="toolbar">
+            <a class="btn btn-primary" href="Aiks_regist.html" title="Aikštelės registravimo forma">Registruoti naują aikštelę</a>
+        </div>
+
+        <div class="alert alert-error" id="lot-full" hidden><span class="icon">✕</span><span>Aikštelė pilna – automobilių registruoti negalima.</span></div>
+
+        <section class="card">
+            <h2>Mano aikštelės</h2>
+            <div class="table-wrap">
+                <table class="table">
+                    <thead>
+                        <tr><th>Pavadinimas</th><th>Adresas</th><th>Darbo laikas</th><th>Registracija</th><th></th></tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Verslo centras „Nemunas“</strong></td>
+                            <td>K. Donelaičio g. 62, Kaunas</td>                            <td>07:00–20:00</td>
+                            <td><span class="badge badge-ok">Patvirtinta</span></td>
+                            <td><div class="row-actions">
+                                <a class="btn btn-secondary btn-sm" href="Aiks_info.html" title="Aikštelės informacijos langas">Peržiūrėti</a>
+                                <a class="btn btn-secondary btn-sm" href="Aiks_red.html" title="Aikštelės redagavimo forma">Redaguoti aikštelę</a>
+                                <a class="btn btn-secondary btn-sm" href="Auto_nr_ived.html" title="Automobilio numerių įvedimo forma">Registruoti automobilius</a>
+                                <a class="btn btn-danger btn-sm" href="Aiks_sal.html" title="Aikštelės šalinimo patvirtinimo langas">Šalinti aikštelę</a>
+                            </div></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Gyvenamojo namo kiemas</strong></td>
+                            <td>Savanorių pr. 145, Kaunas</td>                            <td>00:00–24:00</td>
+                            <td><span class="badge badge-ok">Patvirtinta</span></td>
+                            <td><div class="row-actions">
+                                <a class="btn btn-secondary btn-sm" href="Aiks_info.html" title="Aikštelės informacijos langas">Peržiūrėti</a>
+                                <a class="btn btn-secondary btn-sm" href="Aiks_red.html" title="Aikštelės redagavimo forma">Redaguoti aikštelę</a>
+                                <a class="btn btn-secondary btn-sm" href="Auto_nr_ived.html" title="Automobilio numerių įvedimo forma">Registruoti automobilius</a>
+                                <a class="btn btn-danger btn-sm" href="Aiks_sal.html" title="Aikštelės šalinimo patvirtinimo langas">Šalinti aikštelę</a>
+                            </div></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Biuro aikštelė „Rasa“</strong></td>
+                            <td>Pramonės pr. 8, Kaunas</td>                            <td>08:00–18:00</td>
+                            <td><span class="badge badge-warn">Laukia patvirtinimo</span></td>
+                            <td><div class="row-actions">
+                                <a class="btn btn-secondary btn-sm" href="Aiks_info.html" title="Aikštelės informacijos langas">Peržiūrėti</a>
+                                <a class="btn btn-secondary btn-sm" href="Aiks_red.html" title="Aikštelės redagavimo forma">Redaguoti aikštelę</a>
+                                <a class="btn btn-secondary btn-sm" href="Auto_nr_ived.html" data-full title="Automobilio numerių įvedimo forma">Registruoti automobilius</a>
+                                <a class="btn btn-danger btn-sm" href="Aiks_sal.html" title="Aikštelės šalinimo patvirtinimo langas">Šalinti aikštelę</a>
+                            </div></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Pilnoje aikštelėje automobilių registruoti neleidžiama (2.2.13)
+        document.querySelectorAll('[data-full]').forEach(function (a) {
+            a.addEventListener('click', function (e) { e.preventDefault(); PT.show('lot-full').scrollIntoView({ behavior: 'smooth', block: 'nearest' }); });
+        });
+    });
+    </script>
 </body>
 </html>

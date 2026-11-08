@@ -1,11 +1,70 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="lt">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aikštelė</title>
+    <title>Automobilio numerių įvedimo forma</title>
+    <link rel="stylesheet" href="../assets/styles.css">
+    <script src="../assets/app.js" defer></script>
 </head>
 <body>
-    <h1>Automobilių numeriį įvdimo forma</h1>>
+    <header class="topbar">
+        <div class="brand"><span class="brand-mark">P</span>Parktronikai <small>Parkavimo vietų informacinė sistema</small></div>
+        <span class="role-badge" data-role-label></span>
+    </header>
+
+    <main class="container narrow">
+        <div class="window-header">
+            <div>
+                <div class="window-kind">Puslapis</div>
+                <h1>Automobilio numerių įvedimo forma</h1>
+                <p class="window-desc">Aikštelė: Verslo centras „Nemunas“ (laisvų vietų: 12).</p>
+            </div>
+            <a class="btn btn-secondary btn-sm" href="Aiks_sav_pagr.html" data-back>Grįžti</a>
+        </div>
+
+        <form class="card" id="nr-form" novalidate>
+            <div class="alert alert-error" data-form-error hidden><span class="icon">✕</span><span>Įveskite bent vieną valstybinį numerį.</span></div>
+            <div class="field">
+                <label for="numbers">Valstybiniai numeriai (po vieną eilutėje)</label>
+                <textarea id="numbers" data-required>LMN 789
+ABC 123
+RTA 310</textarea>
+            </div>
+            <div class="field" style="margin-top:12px">
+                <label for="valid">Leidimas galioja iki</label>
+                <input id="valid" type="date" value="2027-12-31">
+            </div>
+            <div class="form-actions">
+                <button class="btn btn-primary" type="submit">Siųsti užklausą</button>
+                <a class="btn btn-secondary" href="Aiks_sav_pagr.html" data-back>Atšaukti</a>
+            </div>
+        </form>
+
+        <div id="results" hidden>
+            <div class="alert alert-success" id="sent-box"><span class="icon">✓</span><span>Užklausa išsiųsta administratoriui: <span id="sent-list"></span></span></div>
+            <div class="alert alert-warning" id="dup-box"><span class="icon">⚠</span><span>Šių automobilių registruoti negalima (jau užregistruoti): <span id="dup-list"></span></span></div>
+        </div>
+    </main>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var REGISTERED = ['ABC 123', 'GHT 902']; // jau leidžiamų automobilių sąraše (mock)
+        document.getElementById('nr-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+            if (!PT.validateForm(this)) { PT.showFormError(this); return; }
+            PT.hide(this.querySelector('[data-form-error]'));
+            var nums = document.getElementById('numbers').value.split('\n').map(function (s) { return s.trim().toUpperCase(); }).filter(Boolean);
+            var dup = nums.filter(function (n) { return REGISTERED.indexOf(n) !== -1; });
+            var ok = nums.filter(function (n) { return REGISTERED.indexOf(n) === -1; });
+            var plates = function (list) { return list.map(function (n) { return '<span class="plate">' + PT.esc(n) + '</span>'; }).join(' '); };
+            document.getElementById('sent-list').innerHTML = plates(ok);
+            document.getElementById('dup-list').innerHTML = plates(dup);
+            document.getElementById('sent-box').hidden = !ok.length;
+            document.getElementById('dup-box').hidden = !dup.length;
+            PT.show('results');
+        });
+    });
+    </script>
 </body>
 </html>

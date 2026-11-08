@@ -1,11 +1,81 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="lt">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Šablono redagavimas</title>
+    <title>Šablono redagavimo langas</title>
+    <link rel="stylesheet" href="../assets/styles.css">
+    <script src="../assets/app.js" defer></script>
 </head>
 <body>
-    <h1>Šablono redagavimas</h1>>
+    <header class="topbar">
+        <div class="brand"><span class="brand-mark">P</span>Parktronikai <small>Parkavimo vietų informacinė sistema</small></div>
+        <span class="role-badge" data-role-label></span>
+    </header>
+
+    <main class="container">
+        <div class="window-header">
+            <div>
+                <div class="window-kind">Puslapis</div>
+                <h1>Šablono redagavimo langas</h1>
+                <p class="window-desc">Redaguojamas šablonas: Parkavimo laikas baigiasi.</p>
+            </div>
+            <a class="btn btn-secondary btn-sm" href="Sabl_perz.html" data-back>Grįžti</a>
+        </div>
+
+        <form novalidate data-result="saved">
+            <div class="alert alert-success" id="saved" hidden><span class="icon">✓</span><span>Šablonas sėkmingai atnaujintas.</span></div>
+            <div class="alert alert-error" data-form-error hidden><span class="icon">✕</span><span>Neteisingi šablono duomenys.</span></div>
+            <div class="grid-2">
+                <section class="card">
+                    <h2>Šablono duomenys</h2>
+                    <div class="stack">
+                        <div class="field"><label for="t-name">Pavadinimas</label><input id="t-name" type="text" value="Parkavimo laikas baigiasi" data-required></div>
+                        <div class="field">
+                            <label for="t-type">Tipas</label>
+                            <select id="t-type"><option selected>Priminimas</option><option>Įspėjimas</option><option>Informacinis</option></select>
+                        </div>
+                        <div class="field"><label for="t-subject">Tema</label><input id="t-subject" type="text" value="Baigiasi parkavimo laikas" data-required></div>
+                        <div class="field"><label for="t-body">Turinys</label><textarea id="t-body" data-required>Sveiki, {vardas},
+{zona} jūsų parkavimas tęsiasi jau 2 val. Nepamirškite jo užbaigti.</textarea></div>
+                        <div class="field">
+                            <label for="t-style">Dizainas</label>
+                            <select id="t-style">
+                                <option value="tpl-blue">Mėlynas</option>
+                                <option value="tpl-green">Žalias</option>
+                                <option value="tpl-amber" selected>Gintarinis</option>
+                                <option value="tpl-plain">Paprastas</option>
+                            </select>
+                        </div>
+                    </div>
+                </section>
+                <section class="card">
+                    <h2>Peržiūra</h2>
+                    <div class="tpl-preview tpl-amber" id="preview">
+                        <div class="tpl-head" id="pv-subject"></div>
+                        <div class="tpl-body" id="pv-body"></div>
+                        <div class="tpl-foot">Parktronikai · Parkavimo vietų informacinė sistema</div>
+                    </div>
+                </section>
+            </div>
+            <div class="form-actions">
+                <button class="btn btn-primary" type="submit">Išsaugoti</button>
+                <a class="btn btn-secondary" href="Sabl_perz.html" data-back>Atšaukti</a>
+            </div>
+        </form>
+    </main>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var s = document.getElementById('t-subject'), b = document.getElementById('t-body'), st = document.getElementById('t-style');
+        function preview() {
+            document.getElementById('pv-subject').textContent = s.value;
+            document.getElementById('pv-body').textContent = b.value;
+            document.getElementById('preview').className = 'tpl-preview ' + st.value;
+        }
+        [s, b, st].forEach(function (x) { x.addEventListener('input', preview); x.addEventListener('change', preview); });
+        preview();
+    });
+    </script>
 </body>
 </html>

@@ -1,14 +1,107 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="lt">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zonos informacija</title>
+    <title>Zonos informacijos langas</title>
+    <link rel="stylesheet" href="../assets/styles.css">
+    <script src="../assets/app.js" defer></script>
 </head>
 <body>
-    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; gap: 10px; font-family: sans-serif;">
-        <a href="..//Aktyvus_parkavimas/Laikm.html" style="display: inline-block; padding: 10px 20px; background-color: #007BFF; color: white; text-decoration: none; border-radius: 5px;">Pradėti parkavimą</a>
-        <a href="Auto_pas.html" style="display: inline-block; padding: 10px 20px; background-color: #007BFF; color: white; text-decoration: none; border-radius: 5px;">Pasirinkti automobilį</a>
-    </div>
+    <header class="topbar">
+        <div class="brand"><span class="brand-mark">P</span>Parktronikai <small>Parkavimo vietų informacinė sistema</small></div>
+        <span class="role-badge" data-role-label></span>
+    </header>
+
+    <main class="container">
+        <div class="window-header">
+            <div>
+                <div class="window-kind">Puslapis</div>
+                <h1>Zonos informacijos langas</h1>
+                <p class="window-desc" id="zone-title"></p>
+            </div>
+            <a class="btn btn-secondary btn-sm" href="Vair_pagr.html" data-back>Grįžti</a>
+        </div>
+
+        <div class="grid-2">
+            <section class="card">
+                <h2>Zonos duomenys</h2>
+                <dl class="kv">
+                    <dt>Zonos pavadinimas</dt><dd id="z-name"></dd>
+                    <dt>Adresas</dt><dd id="z-addr"></dd>
+                    <dt>Tarifas</dt><dd id="z-tarif"></dd>
+                    <dt>Skaičiuojamas intervalas</dt><dd id="z-int"></dd>
+                    <dt>Mokėjimo gavėjas</dt><dd id="z-pay"></dd>
+                    <dt>Būsena</dt><dd id="z-status"></dd>
+                </dl>
+            </section>
+            <section class="card">
+                <h2>Apmokestinimo laikas</h2>
+                <table class="table">
+                    <thead><tr><th>Diena</th><th>Pradžia</th><th>Pabaiga</th></tr></thead>
+                    <tbody id="z-times"></tbody>
+                </table>
+            </section>
+        </div>
+
+        <section class="card">
+            <h2>Parkavimas šioje zonoje</h2>
+
+            <!-- 1 žingsnis: zonos pasirinkimas -> Automobilio pasirinkimo langas (dialogas) -->
+            <div id="step-pick">
+                <p class="muted">Pasirinkite zoną parkavimui. Jei paskyroje yra daugiau nei vienas automobilis, reikės pasirinkti automobilį.</p>
+                <div class="form-actions">
+                    <a class="btn btn-primary btn-lg" href="Auto_pas.html" id="pick-btn" title="Automobilio pasirinkimo langas">Pasirinkti zoną</a>
+                </div>
+            </div>
+
+            <!-- 2 žingsnis: po pasirinkimo -> Laikmačio langas -->
+            <div id="step-start" hidden>
+                <div class="alert alert-success"><span class="icon">✓</span><span>Zona pasirinkta. Automobilis: <span class="plate" id="car-plate"></span> <span id="car-desc"></span></span></div>
+                <div class="form-actions">
+                    <a class="btn btn-park btn-lg" href="../Aktyvus_parkavimas/Laikm.html" id="start-btn" title="Laikmačio langas">Pradėti parkavimą</a>
+                    <a class="btn btn-secondary" href="Auto_pas.html" title="Automobilio pasirinkimo langas">Keisti automobilį</a>
+                </div>
+            </div>
+
+            <p class="hint" id="inactive-hint" hidden>Zona neaktyvi – parkavimo pradėti negalima.</p>
+        </section>
+    </main>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var z = PT.currentZone(), st = PT.ZONE_STATUS[z.busena], car = PT.currentCar();
+        PT.set('zona', z.id);
+        document.getElementById('zone-title').textContent = 'Zona: ' + z.Zonos_pavadinimas;
+        document.getElementById('z-name').textContent = z.Zonos_pavadinimas;
+        document.getElementById('z-addr').textContent = z.Adresas;
+        document.getElementById('z-tarif').textContent = PT.money(z.Tarifas_val) + ' / val.';
+        document.getElementById('z-int').textContent = z.Skaiciuojamas_intervalas_min + ' min.';
+        document.getElementById('z-pay').textContent = z.Mokejimo_gavejas;
+        document.getElementById('z-status').innerHTML = '<span class="badge ' + st.badge + '">' + st.label + '</span>';
+        document.getElementById('z-times').innerHTML = z.laikai.map(function (l) {
+            return '<tr><td>' + l[0] + '</td><td>' + l[1] + '</td><td>' + l[2] + '</td></tr>';
+        }).join('');
+
+        if (!z.Ar_aktyvi) {
+            var pick = document.getElementById('pick-btn');
+            pick.classList.add('disabled'); pick.setAttribute('aria-disabled', 'true');
+            pick.addEventListener('click', function (e) { e.preventDefault(); });
+            PT.show('inactive-hint');
+            return;
+        }
+        // Automobilio pasirinkimo dialogas grąžina į šį langą su pasirinkta zona ir automobiliu
+        if (PT.get('picked') === z.id) {
+            PT.hide('step-pick'); PT.show('step-start');
+            document.getElementById('car-plate').textContent = car.Valstybinis_numeris;
+            document.getElementById('car-desc').textContent = car.Marke + ' ' + car.Modelis;
+        }
+        document.getElementById('start-btn').addEventListener('click', function () {
+            PT.set('start', String(Date.now()));
+            PT.set('end', null);
+            PT.set('picked', null);
+        });
+    });
+    </script>
 </body>
 </html>

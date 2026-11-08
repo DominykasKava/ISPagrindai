@@ -1,21 +1,52 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="lt">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Pagrindinis</title>
+    <title>Administratoriaus pagrindinis langas</title>
+    <link rel="stylesheet" href="../assets/styles.css">
+    <script src="../assets/app.js" defer></script>
 </head>
 <body>
-    <a href="..//Privačios_parkavimo_vietos/Aiks_sav_pagr.html" style="display: inline-block; padding: 10px 20px; background-color: #007BFF; color: white; text-decoration: none; border-radius: 5px;">Aikstelių sąvininko puslapis</a>
-    <a href="..//Klientų_dalis/Vair_pagr.html" style="display: inline-block; padding: 10px 20px; background-color: #007BFF; color: white; text-decoration: none; border-radius: 5px;">Žemėlapis</a>
-    
-    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; gap: 10px; font-family: sans-serif;">
-        <a href="..//Parkavimo_zonos/Zon_vald.html" style="display: inline-block; padding: 10px 20px; background-color: #007BFF; color: white; text-decoration: none; border-radius: 5px;">Zonos</a>
-        <a href="Sabl_perz.html" style="display: inline-block; padding: 10px 20px; background-color: #007BFF; color: white; text-decoration: none; border-radius: 5px;">Pranešimų šablonai</a>
-        <a href="Pran_perz.html" style="display: inline-block; padding: 10px 20px; background-color: #007BFF; color: white; text-decoration: none; border-radius: 5px;">Pranešimai</a>
-        <a href="Atask_perz.html" style="display: inline-block; padding: 10px 20px; background-color: #007BFF; color: white; text-decoration: none; border-radius: 5px;">Ataskaitos</a>
-        <a href="Uzkl_perz.html" style="display: inline-block; padding: 10px 20px; background-color: #007BFF; color: white; text-decoration: none; border-radius: 5px;">Užklausos</a>
-        <a href="Naud_perz.html" style="display: inline-block; padding: 10px 20px; background-color: #007BFF; color: white; text-decoration: none; border-radius: 5px;">Naudotojai</a>
-    </div>
+    <header class="topbar">
+        <div class="brand"><span class="brand-mark">P</span>Parktronikai <small>Parkavimo vietų informacinė sistema</small></div>
+        <span class="role-badge" data-role-label></span>
+    </header>
+
+    <main class="container">
+        <div class="window-header">
+            <div>
+                <div class="window-kind">Puslapis</div>
+                <h1>Administratoriaus pagrindinis langas</h1>
+                <p class="window-desc">Parkavimo infrastruktūros, naudotojų ir pranešimų valdymas.</p>
+            </div>
+        </div>
+
+        <div class="tiles">
+            <a class="tile" href="../Parkavimo_zonos/Zon_vald.html">
+                <span class="tile-title">Zonos</span>
+                <span class="muted">Pridėti, redaguoti ir šalinti parkavimo zonas</span>
+            </a>
+            <a class="tile" href="Naud_perz.html">
+                <span class="tile-title">Naudotojai</span>
+                <span class="muted">Naudotojų sąrašas, paskyrų redagavimas ir šalinimas</span>
+            </a>
+            <a class="tile" href="Uzkl_perz.html">
+                <span class="tile-title">Užklausos <span class="badge badge-warn">2 laukia</span></span>
+                <span class="muted">Aikštelių ir automobilių registravimo užklausos</span>
+            </a>
+            <a class="tile" href="Atask_gen.html">
+                <span class="tile-title">Ataskaitos</span>
+                <span class="muted">Generuoti zonų ir aikštelių ataskaitas</span>
+            </a>
+            <a class="tile" href="Pran_siunt.html">
+                <span class="tile-title">Pranešimai</span>
+                <span class="muted">Siųsti pranešimą naudotojams</span>
+            </a>
+            <a class="tile" href="Sabl_perz.html">
+                <span class="tile-title">Pranešimų šablonai</span>
+                <span class="muted">Šablonų kūrimas, redagavimas ir šalinimas</span>
+            </a>        </div>
+    </main>
 </body>
 </html>

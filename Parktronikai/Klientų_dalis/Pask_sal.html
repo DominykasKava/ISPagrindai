@@ -1,15 +1,36 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="lt">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Šalinimas</title>
+    <title>Paskyros šalinimo patvirtinimo langas</title>
+    <link rel="stylesheet" href="../assets/styles.css">
+    <script src="../assets/app.js" defer></script>
 </head>
-<body>
-    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; gap: 10px; font-family: sans-serif;">
-        <p>Ar tikirai norite pašalinti paskyrą?</p>
-        <a href="..//index.html" style="display: inline-block; padding: 10px 20px; background-color: #007BFF; color: white; text-decoration: none; border-radius: 5px;">Taip</a>
-        <a href="Pask_perz.html" style="display: inline-block; padding: 10px 20px; background-color: #007BFF; color: white; text-decoration: none; border-radius: 5px;">Ne</a>
+<body class="dialog-page">
+    <iframe class="dialog-bg" src="Pask_perz.html" tabindex="-1" aria-hidden="true" inert></iframe>
+    <div class="dialog-overlay">
+        <form class="dialog danger" role="dialog" aria-modal="true" aria-labelledby="dlg-title" novalidate data-result="done" data-return="../index.html">
+            <div class="window-header">
+                <div>
+                    <div class="window-kind">Dialogas</div>
+                    <h1 id="dlg-title">Paskyros šalinimo patvirtinimo langas</h1>
+                </div>
+            </div>
+            <div class="dialog-body">
+                <div class="alert alert-success" id="done" hidden><span class="icon">✓</span><span>Paskyra pašalinta. Nukreipiama į Prisijungimo langą…</span></div>
+                <div data-hide-on-success>
+                    <p>Paskyra ir visi su ja susiję duomenys bus pašalinti negrįžtamai. Patvirtinkite įvesdami slaptažodį.</p>
+                    <div class="field">
+                        <label for="del-pass">Slaptažodis</label>
+                        <input id="del-pass" type="password" data-required data-error-msg="Įvestas slaptažodis neteisingas.">
+                    </div>
+                </div>
+            </div>
+            <div class="dialog-actions">
+                <a class="btn btn-secondary" href="Pask_perz.html" data-close data-hide-on-success>Atšaukti</a>                <button class="btn btn-danger" type="submit" data-hide-on-success>Patvirtinti šalinimą</button>
+            </div>
+        </form>
     </div>
 </body>
 </html>
