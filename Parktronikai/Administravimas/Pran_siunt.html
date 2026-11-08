@@ -1,11 +1,80 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="lt">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pranešimo siuntimas</title>
+    <title>Pranešimo siuntimo langas</title>
+    <link rel="stylesheet" href="../assets/styles.css">
+    <script src="../assets/app.js" defer></script>
 </head>
 <body>
-    <h1>Pranešimo siuntimas</h1>>
+    <header class="topbar">
+        <div class="brand"><span class="brand-mark">P</span>Parktronikai <small>Parkavimo vietų informacinė sistema</small></div>
+        <span class="role-badge" data-role-label></span>
+    </header>
+
+    <main class="container narrow">
+        <div class="window-header">
+            <div>
+                <div class="window-kind">Puslapis</div>
+                <h1>Pranešimo siuntimo langas</h1>
+                <p class="window-desc">Pasirinkite pranešimo šabloną ir gavėjus.</p>
+            </div>
+            <a class="btn btn-secondary btn-sm" href="Admin_pagr.html" data-back>Grįžti</a>
+        </div>
+
+        <!-- Peržiūrėti -> Pranešimų peržiūros langas -->
+        <form class="card" id="msg" action="Pran_perz.html" method="get" novalidate>
+            <div class="alert alert-error" data-form-error hidden><span class="icon">✕</span><span>Užpildykite pranešimo temą ir tekstą.</span></div>
+            <div class="stack">
+                <div class="field">
+                    <label for="tpl">Pranešimo šablonas</label>
+                    <select id="tpl">
+                        <option value="laikas">Parkavimo laikas baigiasi</option>
+                        <option value="skola">Neapmokėtas parkavimas</option>
+                        <option value="info" selected>Bendras informacinis pranešimas</option>
+                        <option value="">Be šablono</option>
+                    </select>
+                </div>
+                <div class="field">
+                    <label>Gavėjai</label>
+                    <label class="choice"><input type="radio" name="to" value="Visi vairuotojai (128)" checked> Visi vairuotojai</label>
+                    <label class="choice"><input type="radio" name="to" value="Aikštelių savininkai (14)"> Aikštelių savininkai</label>
+                    <label class="choice"><input type="radio" name="to" value="Jonas Jonaitis, Tomas Kazlauskas"> Pasirinkti naudotojai: Jonas Jonaitis, Tomas Kazlauskas</label>
+                </div>
+                <div class="field"><label for="subject">Tema</label><input id="subject" type="text" data-required></div>
+                <div class="field"><label for="body">Tekstas</label><textarea id="body" data-required></textarea></div>
+            </div>
+            <div class="form-actions">
+                <button class="btn btn-primary" type="submit" title="Pranešimų peržiūros langas">Peržiūrėti pranešimą</button>
+                <a class="btn btn-secondary" href="Admin_pagr.html" data-back>Atšaukti</a>
+            </div>
+        </form>
+    </main>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var T = {
+            laikas: ['Baigiasi parkavimo laikas', 'Sveiki, {vardas},\n{zona} jūsų parkavimas tęsiasi jau 2 val. Nepamirškite jo užbaigti.', 'tpl-amber'],
+            skola: ['Neapmokėtas parkavimas', 'Sveiki, {vardas},\nturite neapmokėtą parkavimą ({suma}). Kol jo neapmokėsite, naujo parkavimo pradėti negalėsite.', 'tpl-amber'],
+            info: ['Zonų tarifų pasikeitimas', 'Informuojame, kad nuo gruodžio 1 d. keičiasi A zonos tarifas.', 'tpl-blue'],
+            '': ['', '', 'tpl-plain']
+        };
+        var tpl = document.getElementById('tpl'), s = document.getElementById('subject'), b = document.getElementById('body');
+        function apply() { var t = T[tpl.value]; s.value = t[0]; b.value = t[1]; }
+        tpl.addEventListener('change', apply);
+        apply();
+        var form = document.getElementById('msg');
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+            if (!PT.validateForm(form)) { PT.showFormError(form); return; }
+            PT.set('msg', JSON.stringify({
+                tpl: tpl.options[tpl.selectedIndex].text, style: T[tpl.value][2],
+                to: document.querySelector('input[name="to"]:checked').value, subject: s.value, body: b.value
+            }));
+            location.href = form.getAttribute('action');
+        });
+    });
+    </script>
 </body>
 </html>

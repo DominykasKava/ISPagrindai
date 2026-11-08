@@ -1,13 +1,68 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="lt">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pranešimai</title>
+    <title>Pranešimų peržiūros langas</title>
+    <link rel="stylesheet" href="../assets/styles.css">
+    <script src="../assets/app.js" defer></script>
 </head>
 <body>
-    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; gap: 10px; font-family: sans-serif;">
-        <a href="Pran_siunt.html" style="display: inline-block; padding: 10px 20px; background-color: #007BFF; color: white; text-decoration: none; border-radius: 5px;">Siųsti pranešimą</a>
-    </div>
+    <header class="topbar">
+        <div class="brand"><span class="brand-mark">P</span>Parktronikai <small>Parkavimo vietų informacinė sistema</small></div>
+        <span class="role-badge" data-role-label></span>
+    </header>
+
+    <main class="container narrow">
+        <div class="window-header">
+            <div>
+                <div class="window-kind">Puslapis</div>
+                <h1>Pranešimų peržiūros langas</h1>
+                <p class="window-desc">Peržiūrėkite pranešimą ir patvirtinkite siuntimą.</p>
+            </div>
+            <a class="btn btn-secondary btn-sm" href="Pran_siunt.html" data-back>Grįžti</a>
+        </div>
+
+        <div class="alert alert-success" id="sent" hidden><span class="icon">✓</span><span>Pranešimas sėkmingai išsiųstas.</span></div>
+        <div class="alert alert-error" id="err" hidden><span class="icon">✕</span><span>Klaida: neteisingi gavėjai arba pranešimo turinys. Pranešimas neišsiųstas.</span></div>
+
+        <section class="card">
+            <dl class="kv" style="margin-bottom:14px">
+                <dt>Šablonas</dt><dd id="m-tpl"></dd>
+                <dt>Gavėjai</dt><dd id="m-to"></dd>
+            </dl>
+            <div class="tpl-preview tpl-blue" id="preview">
+                <div class="tpl-head" id="m-subject"></div>
+                <div class="tpl-body" id="m-body"></div>
+                <div class="tpl-foot">Parktronikai · Parkavimo vietų informacinė sistema</div>
+            </div>
+            <div class="mock">
+                <strong>Prototipo imitacija:</strong>
+                <label><input type="checkbox" id="mock-err"> gavėjai arba turinys neteisingi</label>
+            </div>
+            <div class="form-actions" id="actions">
+                <button class="btn btn-primary" type="button" id="confirm">Patvirtinti siuntimą</button>
+                <a class="btn btn-secondary" href="Pran_siunt.html" data-back>Atšaukti</a>
+            </div>
+        </section>
+    </main>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var m = { tpl: 'Bendras informacinis pranešimas', style: 'tpl-blue', to: 'Visi vairuotojai (128)', subject: 'Zonų tarifų pasikeitimas',
+                  body: 'Informuojame, kad nuo gruodžio 1 d. keičiasi A zonos tarifas.' };
+        try { var s = JSON.parse(PT.get('msg') || 'null'); if (s) m = s; } catch (e) { /* mock */ }
+        document.getElementById('m-tpl').textContent = m.tpl;
+        document.getElementById('m-to').textContent = m.to;
+        document.getElementById('m-subject').textContent = m.subject;
+        document.getElementById('m-body').textContent = m.body;
+        document.getElementById('preview').className = 'tpl-preview ' + m.style;
+        document.getElementById('confirm').addEventListener('click', function () {
+            if (document.getElementById('mock-err').checked) { PT.hide('sent'); PT.show('err'); return; }
+            PT.hide('err'); PT.show('sent'); PT.hide('actions');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    });
+    </script>
 </body>
 </html>

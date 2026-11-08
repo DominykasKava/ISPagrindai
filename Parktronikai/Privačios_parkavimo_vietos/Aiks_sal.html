@@ -1,15 +1,50 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="lt">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Šalinimas</title>
+    <title>Aikštelės šalinimo patvirtinimo langas</title>
+    <link rel="stylesheet" href="../assets/styles.css">
+    <script src="../assets/app.js" defer></script>
 </head>
-<body>
-    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; gap: 10px; font-family: sans-serif;">
-        <p>Ar tikirai norite pašalinti aikštelę?</p>
-        <a href="Aiks_sav_pagr.html" style="display: inline-block; padding: 10px 20px; background-color: #007BFF; color: white; text-decoration: none; border-radius: 5px;">Taip</a>
-        <a href="Aiks_sav_pagr.html" style="display: inline-block; padding: 10px 20px; background-color: #007BFF; color: white; text-decoration: none; border-radius: 5px;">Ne</a>
+<body class="dialog-page">
+    <iframe class="dialog-bg" src="Aiks_sav_pagr.html" tabindex="-1" aria-hidden="true" inert></iframe>
+    <div class="dialog-overlay">
+        <form class="dialog danger" id="dlg" role="dialog" aria-modal="true" aria-labelledby="dlg-title" novalidate>
+            <div class="window-header">
+                <div>
+                    <div class="window-kind">Dialogas</div>
+                    <h1 id="dlg-title">Aikštelės šalinimo patvirtinimo langas</h1>
+                </div>
+            </div>
+            <div class="dialog-body">
+                <div class="alert alert-success" id="done" hidden><span class="icon">✓</span><span>Aikštelė pašalinta.</span></div>
+                <div class="alert alert-error" id="has-cars" hidden><span class="icon">✕</span><span>Aikštelėje yra automobilių – šalinti neleidžiama.</span></div>
+                <div data-hide-on-success>
+                    <p>Ar tikrai norite pašalinti aikštelę <strong>„Verslo centras „Nemunas““</strong>? Veiksmo atšaukti nebus galima.</p>
+                    <div class="mock">
+                        <strong>Prototipo imitacija:</strong>
+                        <label><input type="checkbox" id="mock-cars"> aikštelėje yra automobilių</label>
+                    </div>
+                </div>
+            </div>
+            <div class="dialog-actions">
+                <a class="btn btn-secondary" href="Aiks_sav_pagr.html" data-close data-hide-on-success>Atšaukti</a>
+                <a class="btn btn-secondary" href="Aiks_sav_pagr.html" data-close data-show-on-success hidden>Uždaryti</a>
+                <button class="btn btn-danger" type="submit" data-hide-on-success>Patvirtinti šalinimą</button>
+            </div>
+        </form>
     </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.getElementById('dlg').addEventListener('submit', function (e) {
+            e.preventDefault();
+            if (document.getElementById('mock-cars').checked) { PT.show('has-cars'); return; }
+            PT.hide('has-cars');
+            PT.showSuccess(this, 'done');
+        });
+    });
+    </script>
 </body>
 </html>

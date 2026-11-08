@@ -1,11 +1,83 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="lt">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Atsiskaitymas</title>
+    <title>Atsiskaitymo langas</title>
+    <link rel="stylesheet" href="../assets/styles.css">
+    <script src="../assets/app.js" defer></script>
 </head>
 <body>
-    <h1>Mokėjimas</h1>
+    <header class="topbar">
+        <div class="brand"><span class="brand-mark">P</span>Parktronikai <small>Parkavimo vietų informacinė sistema</small></div>
+        <span class="role-badge" data-role-label></span>
+    </header>
+
+    <main class="container narrow">
+        <div class="window-header">
+            <div>
+                <div class="window-kind">Puslapis</div>
+                <h1>Atsiskaitymo langas</h1>
+                <p class="window-desc">Parkavimas užbaigtas. Apmokėkite apskaičiuotą sumą.</p>
+            </div>
+            <a class="btn btn-secondary btn-sm" href="Laikm.html" data-back>Grįžti</a>
+        </div>
+
+        <section class="card">
+            <h2>Parkavimo suvestinė</h2>
+            <dl class="kv">
+                <dt>Zona</dt><dd id="zone"></dd>
+                <dt>Automobilis</dt><dd><span class="plate" id="car"></span></dd>
+                <dt>Pradžia</dt><dd id="start"></dd>
+                <dt>Pabaiga</dt><dd id="end"></dd>
+                <dt>Trukmė</dt><dd id="dur"></dd>
+                <dt>Tarifas</dt><dd id="tarif"></dd>
+            </dl>
+            <p style="margin-top:14px">Mokėtina suma: <span class="big-number" id="sum"></span></p>
+        </section>
+
+        <section class="card">
+            <h2>Mokėjimo būdas</h2>
+            <div class="stack">
+                <label class="choice"><input type="radio" name="method" value="card" checked> Susieta mokėjimo kortelė (Visa •••• 4242) – suma nuskaitoma automatiškai per banką</label>
+                <label class="choice"><input type="radio" name="method" value="paysera"> Kortelė nesusieta – vienkartinis mokėjimas per PaySera</label>
+            </div>
+            <p class="hint" style="margin-top:10px">Mokėjimą vykdo išorinės sistemos (Banko sąsaja / PaySera sąsaja). Prototipe jos sąmoningai neprijungtos.</p>
+            <div class="mock">
+                <strong>Prototipo imitacija:</strong>
+                <label><input type="radio" name="mock-pay" value="ok" checked> mokėjimas sėkmingas</label>
+                <label><input type="radio" name="mock-pay" value="fail"> mokėjimas nesėkmingas</label>
+            </div>
+            <div class="form-actions"><button type="button" class="btn btn-primary" id="pay">Apmokėti</button></div>
+        </section>
+
+        <div class="alert alert-success" id="pay-ok" hidden><span class="icon">✓</span><span>Sumokėta sėkmingai. <span id="pay-ok-txt"></span></span></div>
+        <div class="alert alert-error" id="pay-fail" hidden><span class="icon">✕</span><span>Mokėjimas nesėkmingas. Paskyroje pažymėta skola – naujo parkavimo pradėti negalėsite, kol neapmokėsite šios sumos.</span></div>
+    </main>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var z = PT.currentZone(), car = PT.currentCar();
+        var end = Number(PT.get('end')) || Date.now();
+        var start = Number(PT.get('start')) || (end - 47 * 60000);
+        var ms = end - start;
+        var intervals = Math.max(1, Math.ceil(ms / 60000 / z.Skaiciuojamas_intervalas_min));
+        var sum = intervals * z.Skaiciuojamas_intervalas_min / 60 * z.Tarifas_val;
+        document.getElementById('zone').textContent = z.Zonos_pavadinimas;
+        document.getElementById('car').textContent = car.Valstybinis_numeris;
+        document.getElementById('start').textContent = PT.clock(start);
+        document.getElementById('end').textContent = PT.clock(end);
+        document.getElementById('dur').textContent = PT.hms(ms);
+        document.getElementById('tarif').textContent = PT.money(z.Tarifas_val) + ' / val.';
+        document.getElementById('sum').textContent = PT.money(sum);
+        document.getElementById('pay').addEventListener('click', function () {
+            var ok = document.querySelector('input[name="mock-pay"]:checked').value === 'ok';
+            var card = document.querySelector('input[name="method"]:checked').value === 'card';
+            PT.hide('pay-ok'); PT.hide('pay-fail');
+            document.getElementById('pay-ok-txt').textContent = card ? 'Suma nuskaityta nuo susietos kortelės.' : 'Apmokėta per PaySera.';
+            PT.show(ok ? 'pay-ok' : 'pay-fail').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        });
+    });
+    </script>
 </body>
 </html>

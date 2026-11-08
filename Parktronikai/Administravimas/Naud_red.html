@@ -1,11 +1,50 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="lt">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Naudotojo paskyros redagavimas</title>
+    <title>Naudotojo paskyros redagavimo langas</title>
+    <link rel="stylesheet" href="../assets/styles.css">
+    <script src="../assets/app.js" defer></script>
 </head>
 <body>
-    <h1>Naudotojo paskyros redagavimas</h1>>
+    <header class="topbar">
+        <div class="brand"><span class="brand-mark">P</span>Parktronikai <small>Parkavimo vietų informacinė sistema</small></div>
+        <span class="role-badge" data-role-label></span>
+    </header>
+
+    <main class="container narrow">
+        <div class="window-header">
+            <div>
+                <div class="window-kind">Puslapis</div>
+                <h1>Naudotojo paskyros redagavimo langas</h1>
+                <p class="window-desc">Redaguojamas naudotojas: Ona Petraitė.</p>
+            </div>
+            <a class="btn btn-secondary btn-sm" href="Naud_perz.html" data-back>Grįžti</a>
+        </div>
+
+        <form class="card" novalidate data-result="saved" data-return="Naud_perz.html">
+            <div class="alert alert-success" id="saved" hidden><span class="icon">✓</span><span>Naudotojo duomenys išsaugoti. Grįžtama į naudotojų sąrašą…</span></div>
+            <div class="alert alert-error" data-form-error hidden><span class="icon">✕</span><span>Pažymėti laukai užpildyti netinkamai.</span></div>
+            <div class="form-grid">
+                <div class="field"><label for="u-vardas">Vardas</label><input id="u-vardas" type="text" value="Ona" data-required></div>
+                <div class="field"><label for="u-pavarde">Pavardė</label><input id="u-pavarde" type="text" value="Petraitė" data-required></div>
+                <div class="field"><label for="u-email">El. paštas</label><input id="u-email" type="email" value="ona.petraite@example.lt" data-required></div>
+                <div class="field"><label for="u-tel">Telefono numeris</label><input id="u-tel" type="tel" value="+370 655 11223"></div>
+                <div class="field full">
+                    <label for="u-role">Rolė sistemoje</label>
+                    <select id="u-role">
+                        <option>Vairuotojas</option>
+                        <option selected>Aikštelės savininkas</option>
+                        <option>Administratorius</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-actions">
+                <button class="btn btn-primary" type="submit">Išsaugoti</button>
+                <a class="btn btn-secondary" href="Naud_perz.html" data-back>Atšaukti</a>
+            </div>
+        </form>
+    </main>
 </body>
 </html>

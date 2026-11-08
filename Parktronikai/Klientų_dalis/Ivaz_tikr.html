@@ -1,11 +1,113 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="lt">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Numerių nuskaitymas</title>
+    <title>Įvažiavimo tikrinimo langas</title>
+    <link rel="stylesheet" href="../assets/styles.css">
+    <script src="../assets/app.js" defer></script>
 </head>
 <body>
-    <h1>Numerių nuskaitymas</h1>
+    <header class="topbar">
+        <div class="brand"><span class="brand-mark">P</span>Parktronikai <small>Parkavimo vietų informacinė sistema</small></div>
+        <span class="role-badge" data-role-label></span>
+    </header>
+
+    <main class="container">
+        <div class="window-header">
+            <div>
+                <div class="window-kind">Puslapis</div>
+                <h1>Įvažiavimo tikrinimo langas</h1>
+                <p class="window-desc">Įkelkite automobilio nuotrauką – sistema atpažins valstybinį numerį ir patikrins leidimą įvažiuoti.</p>
+            </div>
+            <a class="btn btn-secondary btn-sm" href="Vair_pagr.html" data-back>Grįžti</a>
+        </div>
+
+        <div class="grid-2">
+            <section class="card">
+                <h2>1. Nuotraukos įkėlimas</h2>
+                <div class="field" style="margin-bottom:12px">
+                    <label for="lot">Privati aikštelė</label>
+                    <select id="lot">
+                        <option>Verslo centras „Nemunas“ – K. Donelaičio g. 62</option>
+                        <option>Gyvenamojo namo kiemas – Savanorių pr. 145</option>
+                    </select>
+                </div>
+                <div class="dropzone">
+                    <label class="btn btn-primary" for="photo">Įkelti nuotrauką</label>
+                    <input id="photo" type="file" accept="image/*" hidden>
+                    <span class="hint">Leidžiami formatai: JPG, PNG</span>
+                    <button type="button" class="btn btn-secondary btn-sm" id="sample">Naudoti pavyzdinę nuotrauką</button>
+                </div>
+                <div class="alert alert-error" id="bad-format" hidden style="margin-top:12px"><span class="icon">✕</span><span>Netinkamas nuotraukos formatas. Įkelkite JPG arba PNG failą.</span></div>
+                <div id="preview-wrap" hidden style="margin-top:14px">
+                    <img id="preview" class="photo-preview" alt="Įkelta automobilio nuotrauka" hidden>
+                    <svg id="sample-img" class="sample-car photo-preview" viewBox="0 0 360 200" role="img" aria-label="Pavyzdinė automobilio nuotrauka" hidden>
+                        <rect class="car-ground" x="0" y="170" width="360" height="30"/>
+                        <path class="car-body" d="M40,150 L60,95 Q70,75 95,72 L265,72 Q290,75 300,95 L320,150 Q322,170 300,170 L60,170 Q38,170 40,150 Z"/>
+                        <path class="car-glass" d="M82,100 L96,82 L264,82 L278,100 Z"/>
+                        <rect class="car-plate" x="125" y="130" width="110" height="30" rx="3"/>
+                        <text class="car-plate-text" x="180" y="152" text-anchor="middle">ABC 123</text>
+                    </svg>
+                </div>
+            </section>
+
+            <section class="card" id="step2" hidden>
+                <h2>2. Atpažintas valstybinis numeris</h2>
+                <div class="field">
+                    <label for="plate">Valstybinis numeris (galima pataisyti rankiniu būdu)</label>
+                    <input id="plate" type="text" value="ABC 123">
+                </div>
+                <p class="hint">Atpažinimo patikimumas: 94 %</p>
+                <div class="alert alert-success" id="plate-changed" hidden><span class="icon">✓</span><span>Numeris sėkmingai pakeistas.</span></div>
+                <div class="form-actions"><button type="button" class="btn btn-primary" id="confirm">Patvirtinti numerį</button></div>
+
+                <div class="mock">
+                    <strong>Prototipo imitacija:</strong>
+                    <label><input type="radio" name="mock-result" value="ok" checked> numeris yra leidžiamų sąraše</label>
+                    <label><input type="radio" name="mock-result" value="no"> numerio sąraše nėra</label>
+                </div>
+
+                <div class="result result-ok" id="res-ok" hidden><span class="result-icon">✓</span><span>Įvažiuoti leidžiama<br><span class="hint" id="res-ok-txt"></span></span></div>
+                <div class="result result-no" id="res-no" hidden><span class="result-icon">✕</span><span>Įvažiuoti draudžiama<br><span class="hint" id="res-no-txt"></span></span></div>
+            </section>
+        </div>
+    </main>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var original = 'ABC 123';
+        function recognized() {
+            PT.show('preview-wrap'); PT.show('step2');
+            PT.hide('res-ok'); PT.hide('res-no'); PT.hide('plate-changed');
+            document.getElementById('plate').value = original;
+        }
+        document.getElementById('photo').addEventListener('change', function () {
+            var f = this.files[0];
+            PT.hide('bad-format');
+            if (!f) return;
+            if (!/^image\/(jpeg|png)$/.test(f.type)) { PT.show('bad-format'); PT.hide('step2'); PT.hide('preview-wrap'); return; }
+            var img = document.getElementById('preview');
+            img.src = URL.createObjectURL(f); img.hidden = false;
+            PT.hide('sample-img');
+            recognized();
+        });
+        document.getElementById('sample').addEventListener('click', function () {
+            PT.hide('bad-format'); PT.hide('preview'); PT.show('sample-img');
+            recognized();
+        });
+        document.getElementById('plate').addEventListener('change', function () {
+            if (this.value.trim() && this.value.trim() !== original) PT.show('plate-changed');
+        });
+        document.getElementById('confirm').addEventListener('click', function () {
+            var nr = document.getElementById('plate').value.trim() || original;
+            var lot = document.getElementById('lot').value.split(' – ')[0];
+            var ok = document.querySelector('input[name="mock-result"]:checked').value === 'ok';
+            PT.hide('res-ok'); PT.hide('res-no');
+            document.getElementById(ok ? 'res-ok-txt' : 'res-no-txt').textContent = nr + ' · ' + lot;
+            PT.show(ok ? 'res-ok' : 'res-no');
+        });
+    });
+    </script>
 </body>
 </html>

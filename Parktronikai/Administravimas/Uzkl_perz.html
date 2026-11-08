@@ -1,13 +1,62 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="lt">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Užklausos</title>
+    <title>Užklausų langas</title>
+    <link rel="stylesheet" href="../assets/styles.css">
+    <script src="../assets/app.js" defer></script>
 </head>
 <body>
-    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; gap: 10px; font-family: sans-serif;">
-        <a href="Uzkl_patv.html" style="display: inline-block; padding: 10px 20px; background-color: #007BFF; color: white; text-decoration: none; border-radius: 5px;">Patikrinti užklausą</a>
-    </div>
+    <header class="topbar">
+        <div class="brand"><span class="brand-mark">P</span>Parktronikai <small>Parkavimo vietų informacinė sistema</small></div>
+        <span class="role-badge" data-role-label></span>
+    </header>
+
+    <main class="container">
+        <div class="window-header">
+            <div>
+                <div class="window-kind">Puslapis</div>
+                <h1>Užklausų langas</h1>
+                <p class="window-desc">Gautos aikštelių ir automobilių registravimo užklausos.</p>
+            </div>
+            <a class="btn btn-secondary btn-sm" href="Admin_pagr.html" data-back>Grįžti</a>
+        </div>
+
+        <section class="card">
+            <div class="field" style="max-width:320px;margin-bottom:12px">
+                <label for="filter">Filtruoti pagal naudotoją</label>
+                <select id="filter">
+                    <option value="">Visi naudotojai</option>
+                    <option>Ona Petraitė</option>
+                    <option>Mindaugas Šimkus</option>
+                </select>
+            </div>
+            <div class="table-wrap">
+                <table class="table" id="requests">
+                    <thead><tr><th>Tipas</th><th>Naudotojas</th><th>Aikštelė</th><th>Pateikimo data</th><th>Būsena</th><th></th></tr></thead>
+                    <tbody>
+                        <tr data-user="Ona Petraitė"><td>Automobilių registravimas (3 automobiliai)</td><td>Ona Petraitė</td><td>Verslo centras „Nemunas“</td><td>2026-11-05</td><td><span class="badge badge-warn">Laukia patvirtinimo</span></td>
+                            <td><div class="row-actions"><a class="btn btn-secondary btn-sm" href="Uzkl_patv.html" title="Užklausos patvirtinimo langas">Peržiūrėti</a></div></td></tr>
+                        <tr data-user="Ona Petraitė"><td>Aikštelės registravimas</td><td>Ona Petraitė</td><td>Biuro aikštelė „Rasa“</td><td>2026-11-02</td><td><span class="badge badge-warn">Laukia patvirtinimo</span></td>
+                            <td><div class="row-actions"><a class="btn btn-secondary btn-sm" href="Uzkl_patv.html" title="Užklausos patvirtinimo langas">Peržiūrėti</a></div></td></tr>
+                        <tr data-user="Mindaugas Šimkus"><td>Automobilių registravimas (1 automobilis)</td><td>Mindaugas Šimkus</td><td>Gyvenamojo namo kiemas</td><td>2026-10-28</td><td><span class="badge badge-ok">Patvirtinta</span></td>
+                            <td><div class="row-actions"><a class="btn btn-secondary btn-sm" href="Uzkl_patv.html" title="Užklausos patvirtinimo langas">Peržiūrėti</a></div></td></tr>
+                        <tr data-user="Mindaugas Šimkus"><td>Aikštelės registravimas</td><td>Mindaugas Šimkus</td><td>Sandėlio aikštelė</td><td>2026-10-20</td><td><span class="badge badge-danger">Atmesta</span></td>
+                            <td><div class="row-actions"><a class="btn btn-secondary btn-sm" href="Uzkl_patv.html" title="Užklausos patvirtinimo langas">Peržiūrėti</a></div></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.getElementById('filter').addEventListener('change', function () {
+            var u = this.value;
+            document.querySelectorAll('#requests tbody tr').forEach(function (tr) { tr.hidden = u && tr.dataset.user !== u; });
+        });
+    });
+    </script>
 </body>
 </html>

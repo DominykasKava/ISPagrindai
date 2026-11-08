@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Banko sąsaja</title>
+    <link rel="stylesheet" href="../assets/styles.css">
+    <script src="../assets/app.js" defer></script>
+</head>
+<body>
+    <header class="topbar external">
+        <div class="brand">Bankas <small>išorinė sistema</small></div>
+    </header>
+    <div class="external-banner">
+        Išorinės sistemos imitacija. Į šį langą nuorodų nėra – navigavimo plane „Banko sąsaja“ sąmoningai neprijungta (dėstytojų nurodymu).
+    </div>
+
+    <main class="container narrow">
+        <div class="window-header external">
+            <div>
+                <div class="window-kind">Išorinės sistemos imitacija</div>
+                <h1>Banko sąsaja</h1>
+                <p class="window-desc">Automatinis sumos nuskaitymas iš susietos mokėjimo kortelės.</p>
+            </div>
+        </div>
+
+        <section class="card">
+            <h2>Nuskaitymo užklausa</h2>
+            <dl class="kv">
+                <dt>Gavėjas</dt><dd>Parkavimo vietų informacinė sistema</dd>
+                <dt>Suma</dt><dd>2,50 €</dd>
+                <dt>Kortelė</dt><dd>Visa •••• 4242</dd>
+                <dt>Mokėjimo tokenas</dt><dd>tok_••••••8f3a</dd>
+            </dl>
+            <div class="form-actions">
+                <button type="button" class="btn btn-primary" id="ok">Pervesti pinigus</button>
+                <button type="button" class="btn btn-secondary" id="fail">Trūksta lėšų</button>
+            </div>
+        </section>
+        <div class="alert alert-success" id="res-ok" hidden><span class="icon">✓</span><span>Pinigai pervesti. Mokėjimo būsena grąžinta sistemai.</span></div>
+        <div class="alert alert-error" id="res-fail" hidden><span class="icon">✕</span><span>Kortelėje trūksta lėšų. Mokėjimo būsena grąžinta sistemai.</span></div>
+    </main>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.getElementById('ok').onclick = function () { PT.hide('res-fail'); PT.show('res-ok'); };
+        document.getElementById('fail').onclick = function () { PT.hide('res-ok'); PT.show('res-fail'); };
+    });
+    </script>
+</body>
+</html>

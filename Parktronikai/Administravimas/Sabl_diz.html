@@ -1,11 +1,69 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="lt">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Šablono dizainas</title>
+    <title>Šablono dizaino langas</title>
+    <link rel="stylesheet" href="../assets/styles.css">
+    <script src="../assets/app.js" defer></script>
 </head>
 <body>
-    <h1>Šablono dizainas</h1>>
+    <header class="topbar">
+        <div class="brand"><span class="brand-mark">P</span>Parktronikai <small>Parkavimo vietų informacinė sistema</small></div>
+        <span class="role-badge" data-role-label></span>
+    </header>
+
+    <main class="container">
+        <div class="window-header">
+            <div>
+                <div class="window-kind">Puslapis</div>
+                <h1>Šablono dizaino langas</h1>
+                <p class="window-desc">Pasirinkite šablono stilių ir peržiūrėkite rezultatą.</p>
+            </div>
+            <a class="btn btn-secondary btn-sm" href="Sabl_kur.html" data-back>Grįžti</a>
+        </div>
+
+        <div class="alert alert-success" id="saved" hidden><span class="icon">✓</span><span>Šablonas sėkmingai sukurtas.</span></div>
+
+        <div class="grid-2">
+            <section class="card">
+                <h2>Stilius</h2>
+                <div class="stack" id="styles">
+                    <label class="choice"><input type="radio" name="style" value="tpl-blue" checked> Mėlynas (informacinis)</label>
+                    <label class="choice"><input type="radio" name="style" value="tpl-green"> Žalias (sėkmė, patvirtinimas)</label>
+                    <label class="choice"><input type="radio" name="style" value="tpl-amber"> Gintarinis (priminimas, įspėjimas)</label>
+                    <label class="choice"><input type="radio" name="style" value="tpl-plain"> Paprastas (be spalvų)</label>
+                </div>
+            </section>
+            <section class="card">
+                <h2>Šablono peržiūra</h2>
+                <div class="tpl-preview tpl-blue" id="preview">
+                    <div class="tpl-head" id="pv-subject"></div>
+                    <div class="tpl-body" id="pv-body"></div>
+                    <div class="tpl-foot">Parktronikai · Parkavimo vietų informacinė sistema</div>
+                </div>
+            </section>
+        </div>
+
+        <div class="form-actions">
+            <button class="btn btn-primary" type="button" id="confirm">Patvirtinti šabloną</button>
+        </div>
+    </main>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var data = { subject: 'Zonos tarifo pakeitimas', body: 'Sveiki, {vardas},\nnuo gruodžio 1 d. {zona} tarifas bus 2,80 €/val.' };
+        try { var saved = JSON.parse(PT.get('tpl') || 'null'); if (saved) data = saved; } catch (e) { /* mock */ }
+        document.getElementById('pv-subject').textContent = data.subject;
+        document.getElementById('pv-body').textContent = data.body;
+        document.getElementById('styles').addEventListener('change', function (e) {
+            document.getElementById('preview').className = 'tpl-preview ' + e.target.value;
+        });
+        document.getElementById('confirm').addEventListener('click', function () {
+            this.hidden = true;
+            PT.show('saved').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        });
+    });
+    </script>
 </body>
 </html>

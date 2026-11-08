@@ -1,15 +1,49 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="lt">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Šablonai</title>
+    <title>Šablonų sąrašo langas</title>
+    <link rel="stylesheet" href="../assets/styles.css">
+    <script src="../assets/app.js" defer></script>
 </head>
 <body>
-    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; gap: 10px; font-family: sans-serif;">
-        <a href="Sabl_kur.html" style="display: inline-block; padding: 10px 20px; background-color: #007BFF; color: white; text-decoration: none; border-radius: 5px;">Sukurti</a>
-        <a href="Sabl_sal.html" style="display: inline-block; padding: 10px 20px; background-color: #007BFF; color: white; text-decoration: none; border-radius: 5px;">Šalinti</a>
-        <a href="Sabl_red.html" style="display: inline-block; padding: 10px 20px; background-color: #007BFF; color: white; text-decoration: none; border-radius: 5px;">Redaguoti</a>
-    </div>
+    <header class="topbar">
+        <div class="brand"><span class="brand-mark">P</span>Parktronikai <small>Parkavimo vietų informacinė sistema</small></div>
+        <span class="role-badge" data-role-label></span>
+    </header>
+
+    <main class="container">
+        <div class="window-header">
+            <div>
+                <div class="window-kind">Puslapis</div>
+                <h1>Šablonų sąrašo langas</h1>
+                <p class="window-desc">Pranešimų šablonai.</p>
+            </div>
+            <a class="btn btn-secondary btn-sm" href="Admin_pagr.html" data-back>Grįžti</a>
+        </div>
+
+        <div class="toolbar">
+            <a class="btn btn-primary" href="Sabl_kur.html" title="Šablono kūrimo langas">Kurti šabloną</a>
+        </div>
+
+        <section class="card">
+            <div class="table-wrap">
+                <table class="table">
+                    <thead><tr><th>Pavadinimas</th><th>Tipas</th><th>Aprašymas</th><th>Sukūrimo data</th><th>Dizainas</th><th></th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>Parkavimo laikas baigiasi</strong></td><td>Priminimas</td><td>Siunčiamas, kai parkavimas trunka ilgiau nei 2 val.</td><td>2026-09-12</td><td><span class="badge badge-warn">Gintarinis</span></td>
+                            <td><div class="row-actions"><a class="btn btn-secondary btn-sm" href="Sabl_red.html" title="Šablono redagavimo langas">Redaguoti</a><a class="btn btn-danger btn-sm" href="Sabl_sal.html" title="Šablono šalinimo patvirtinimo langas">Šalinti</a></div></td></tr>
+                        <tr><td><strong>Neapmokėtas parkavimas</strong></td><td>Įspėjimas</td><td>Siunčiamas po nesėkmingo mokėjimo</td><td>2026-09-12</td><td><span class="badge badge-warn">Gintarinis</span></td>
+                            <td><div class="row-actions"><a class="btn btn-secondary btn-sm" href="Sabl_red.html" title="Šablono redagavimo langas">Redaguoti</a><a class="btn btn-danger btn-sm" href="Sabl_sal.html" title="Šablono šalinimo patvirtinimo langas">Šalinti</a></div></td></tr>
+                        <tr><td><strong>Bendras informacinis pranešimas</strong></td><td>Informacinis</td><td>Rankiniai pranešimai naudotojų grupėms</td><td>2026-10-03</td><td><span class="badge badge-info">Mėlynas</span></td>
+                            <td><div class="row-actions"><a class="btn btn-secondary btn-sm" href="Sabl_red.html" title="Šablono redagavimo langas">Redaguoti</a><a class="btn btn-danger btn-sm" href="Sabl_sal.html" title="Šablono šalinimo patvirtinimo langas">Šalinti</a></div></td></tr>
+                        <tr><td><strong>Užklausa patvirtinta</strong></td><td>Informacinis</td><td>Aikštelės savininkui po užklausos patvirtinimo</td><td>2026-10-15</td><td><span class="badge badge-ok">Žalias</span></td>
+                            <td><div class="row-actions"><a class="btn btn-secondary btn-sm" href="Sabl_red.html" title="Šablono redagavimo langas">Redaguoti</a><a class="btn btn-danger btn-sm" href="Sabl_sal.html" title="Šablono šalinimo patvirtinimo langas">Šalinti</a></div></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
 </body>
 </html>

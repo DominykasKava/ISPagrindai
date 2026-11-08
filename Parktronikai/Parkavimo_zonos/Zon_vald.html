@@ -1,15 +1,66 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="lt">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zonos</title>
+    <title>Zonų valdymo langas</title>
+    <link rel="stylesheet" href="../assets/styles.css">
+    <script src="../assets/app.js" defer></script>
 </head>
 <body>
-    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; gap: 10px; font-family: sans-serif;">
-        <a href="Zon_kur.html" style="display: inline-block; padding: 10px 20px; background-color: #007BFF; color: white; text-decoration: none; border-radius: 5px;">Nauja zona</a>
-        <a href="Zon_red.html" style="display: inline-block; padding: 10px 20px; background-color: #007BFF; color: white; text-decoration: none; border-radius: 5px;">Redaguoti</a>
-        <a href="Zon_sal.html" style="display: inline-block; padding: 10px 20px; background-color: #007BFF; color: white; text-decoration: none; border-radius: 5px;">Šalinti</a>
-    </div>
+    <header class="topbar">
+        <div class="brand"><span class="brand-mark">P</span>Parktronikai <small>Parkavimo vietų informacinė sistema</small></div>
+        <span class="role-badge" data-role-label></span>
+    </header>
+
+    <main class="container">
+        <div class="window-header">
+            <div>
+                <div class="window-kind">Puslapis</div>
+                <h1>Zonų valdymo langas</h1>
+                <p class="window-desc">Parkavimo zonų pridėjimas, redagavimas ir šalinimas.</p>
+            </div>
+            <a class="btn btn-secondary btn-sm" href="../Administravimas/Admin_pagr.html" data-back>Grįžti</a>
+        </div>
+
+        <div class="toolbar">
+            <a class="btn btn-primary" href="Zon_kur.html" title="Zonos duomenų įvedimo langas">Pridėti zoną</a>
+        </div>
+
+        <div class="layout-side">
+            <section class="card">
+                <h2>Zonų žemėlapis</h2>
+                <svg class="map" id="map" role="img" aria-label="Parkavimo zonų žemėlapis"></svg>
+                <div class="legend">
+                    <span><i class="l-free"></i>Laisvų vietų yra</span>
+                    <span><i class="l-warn"></i>Beveik pilna</span>
+                    <span><i class="l-full"></i>Užimta</span>
+                    <span><i class="l-off"></i>Neaktyvi</span>
+                </div>
+            </section>
+            <section class="card">
+                <h2>Registruotos zonos</h2>
+                <table class="table">
+                    <thead><tr><th>Zona</th><th></th></tr></thead>
+                    <tbody id="rows"></tbody>
+                </table>
+            </section>
+        </div>
+    </main>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        PT.renderMap(document.getElementById('map'), {});
+        document.getElementById('rows').innerHTML = Object.keys(PT.ZONES).map(function (id) {
+            var z = PT.ZONES[id], st = PT.ZONE_STATUS[z.busena];
+            return '<tr><td><strong>' + PT.esc(z.Zonos_pavadinimas) + '</strong><br><span class="hint">' + PT.money(z.Tarifas_val) +
+                '/val. · ' + z.Skaiciuojamas_intervalas_min + ' min.</span><br><span class="badge ' + st.badge + '">' + st.label + '</span></td>' +
+                '<td><div class="row-actions">' +
+                '<a class="btn btn-secondary btn-sm" href="Zon_red.html?zona=' + id + '" title="Zonos duomenų redagavimo langas">Redaguoti</a>' +
+                '<a class="btn btn-danger btn-sm" href="Zon_sal.html?zona=' + id + '" title="Zonos šalinimo patvirtinimo langas">Šalinti zoną</a>' +
+                '</div></td></tr>';
+        }).join('');
+    });
+    </script>
 </body>
 </html>

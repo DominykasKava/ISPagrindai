@@ -1,15 +1,32 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="lt">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Naudotojo paskyros šalinimas</title>
+    <title>Naudotojo paskyros šalinimo langas</title>
+    <link rel="stylesheet" href="../assets/styles.css">
+    <script src="../assets/app.js" defer></script>
 </head>
-<body>
-    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; gap: 10px; font-family: sans-serif;">
-        <p>Ar tikirai norite pašalinti naudotoją?</p>
-        <a href="Naud_perz.html" style="display: inline-block; padding: 10px 20px; background-color: #007BFF; color: white; text-decoration: none; border-radius: 5px;">Taip</a>
-        <a href="Naud_perz.html" style="display: inline-block; padding: 10px 20px; background-color: #007BFF; color: white; text-decoration: none; border-radius: 5px;">Ne</a>
+<body class="dialog-page">
+    <iframe class="dialog-bg" src="Naud_perz.html" tabindex="-1" aria-hidden="true" inert></iframe>
+    <div class="dialog-overlay">
+        <form class="dialog danger" role="dialog" aria-modal="true" aria-labelledby="dlg-title" novalidate data-result="done">
+            <div class="window-header">
+                <div>
+                    <div class="window-kind">Dialogas</div>
+                    <h1 id="dlg-title">Naudotojo paskyros šalinimo langas</h1>
+                </div>
+            </div>
+            <div class="dialog-body">
+                <div class="alert alert-success" id="done" hidden><span class="icon">✓</span><span>Naudotojas sėkmingai pašalintas.</span></div>
+                <p data-hide-on-success>Ar tikrai norite pašalinti naudotoją <strong>Tomas Kazlauskas</strong> (tomas.k@example.lt)?</p>
+            </div>
+            <div class="dialog-actions">
+                <a class="btn btn-secondary" href="Naud_perz.html" data-close data-hide-on-success>Atšaukti</a>
+                <a class="btn btn-secondary" href="Naud_perz.html" data-close data-show-on-success hidden>Uždaryti</a>
+                <button class="btn btn-danger" type="submit" data-hide-on-success>Patvirtinti šalinimą</button>
+            </div>
+        </form>
     </div>
 </body>
 </html>

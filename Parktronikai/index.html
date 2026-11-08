@@ -1,15 +1,53 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="lt">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prisijungimas</title>
+    <title>Prisijungimo langas</title>
+    <link rel="stylesheet" href="assets/styles.css">
+    <script src="assets/app.js" defer></script>
 </head>
-<body>
-    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; gap: 10px; font-family: sans-serif;">
-        <a href="Privačios_parkavimo_vietos/Aiks_sav_pagr.html" style="display: inline-block; padding: 10px 20px; background-color: #007BFF; color: white; text-decoration: none; border-radius: 5px;">Aikštelės sąvininko prisijungimas</a>
-        <a href="Klientų_dalis/Vair_pagr.html" style="display: inline-block; padding: 10px 20px; background-color: #007BFF; color: white; text-decoration: none; border-radius: 5px;">Vairuotojo prisijungimas</a>
-        <a href="Klientų_dalis/Regsit.html" style="display: inline-block; padding: 10px 20px; background-color: #007BFF; color: white; text-decoration: none; border-radius: 5px;">Registracija</a>
-    </div>
+<body data-logout>
+    <header class="topbar">
+        <div class="brand"><span class="brand-mark">P</span>Parktronikai <small>Parkavimo vietų informacinė sistema</small></div>
+        <span class="role-badge" data-role-label></span>
+    </header>
+
+    <main class="container narrow">
+        <div class="window-header">
+            <div>
+                <div class="window-kind">Puslapis</div>
+                <h1>Prisijungimo langas</h1>
+                <p class="window-desc">Įveskite prisijungimo duomenis.</p>
+            </div>
+        </div>
+
+        <!-- Prisijungti -> Vairuotojo pagrindinis langas (rolę tikroje sistemoje nustatys backend'as) -->
+        <form class="card stack" action="Klientų_dalis/Vair_pagr.html" method="get" novalidate>
+            <input type="hidden" name="role" value="vairuotojas">
+            <div class="field">
+                <label for="login-user">Prisijungimo vardas</label>
+                <input id="login-user" type="text" autocomplete="username" placeholder="pvz. jonas.jonaitis@example.lt">
+            </div>
+            <div class="field">
+                <label for="login-pass">Slaptažodis</label>
+                <input id="login-pass" type="password" autocomplete="current-password">
+            </div>
+            <div class="form-actions">
+                <button class="btn btn-primary" type="submit" title="Vairuotojo pagrindinis langas">Prisijungti</button>
+                <a class="btn btn-secondary" href="Klientų_dalis/Regsit.html" title="Registracijos langas">Registruotis</a>
+            </div>
+        </form>
+
+        <section class="card">
+            <h2>Demo prisijungimas</h2>
+            <p class="hint">Tik prototipui. Tikroje sistemoje rolę nustatys backend'as pagal prisijungimo duomenis.</p>
+            <div class="stack">
+                <a class="btn btn-demo" href="Klientų_dalis/Vair_pagr.html?role=vairuotojas" title="Vairuotojo pagrindinis langas">Demo: prisijungti kaip vairuotojas</a>
+                <a class="btn btn-demo" href="Klientų_dalis/Vair_pagr.html?role=savininkas" title="Vairuotojo pagrindinis langas (su mygtuku į Aikštelės savininko pagrindinį langą)">Demo: prisijungti kaip aikštelės savininkas</a>
+                <a class="btn btn-demo" href="Administravimas/Admin_pagr.html?role=administratorius" title="Administratoriaus pagrindinis langas">Demo: prisijungti kaip administratorius</a>
+            </div>
+        </section>
+    </main>
 </body>
 </html>

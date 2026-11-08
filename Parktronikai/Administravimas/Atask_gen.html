@@ -1,11 +1,63 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="lt">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ataskaitos generavimas</title>
+    <title>Ataskaitų generavimo langas</title>
+    <link rel="stylesheet" href="../assets/styles.css">
+    <script src="../assets/app.js" defer></script>
 </head>
 <body>
-    <h1>Ataskaitos generavimas</h1>>
+    <header class="topbar">
+        <div class="brand"><span class="brand-mark">P</span>Parktronikai <small>Parkavimo vietų informacinė sistema</small></div>
+        <span class="role-badge" data-role-label></span>
+    </header>
+
+    <main class="container narrow">
+        <div class="window-header">
+            <div>
+                <div class="window-kind">Puslapis</div>
+                <h1>Ataskaitų generavimo langas</h1>
+                <p class="window-desc">Pasirinkite ataskaitos tipą ir laikotarpį.</p>
+            </div>
+            <a class="btn btn-secondary btn-sm" href="Admin_pagr.html" data-back>Grįžti</a>
+        </div>
+
+        <!-- Generuoti -> Ataskaitų langas (sugeneruota ataskaita) -->
+        <form class="card" id="gen" action="Atask_perz.html" method="get" novalidate>
+            <div class="alert alert-error" data-form-error hidden><span class="icon">✕</span><span data-text>Neteisingi ataskaitos parametrai.</span></div>
+            <div class="stack">
+                <div class="field">
+                    <label for="type">Ataskaitos tipas</label>
+                    <select id="type"><option>Zonų užimtumo</option><option>Aikštelių</option></select>
+                </div>
+                <div class="field">
+                    <label for="obj">Objektas</label>
+                    <select id="obj"><option>Visos zonos</option><option>A zona – Senamiestis</option><option>B zona – Centras</option><option>C zona – Žaliakalnis</option></select>
+                </div>
+                <div class="form-grid">
+                    <div class="field"><label for="from">Pradžios data</label><input id="from" type="date" value="2026-10-01" data-required></div>
+                    <div class="field"><label for="to">Pabaigos data</label><input id="to" type="date" value="2026-10-31" data-required></div>
+                </div>
+            </div>
+            <div class="form-actions">
+                <button class="btn btn-primary" type="submit" title="Ataskaitų langas">Generuoti ataskaitą</button>
+            </div>
+        </form>
+    </main>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var form = document.getElementById('gen');
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+            if (!PT.validateForm(form)) { PT.showFormError(form, 'Neteisingi ataskaitos parametrai: nurodykite laikotarpį.'); return; }
+            var from = document.getElementById('from').value, to = document.getElementById('to').value;
+            if (from > to) { PT.showFormError(form, 'Neteisingi ataskaitos parametrai: pradžios data vėlesnė už pabaigos datą.'); return; }
+            PT.set('report', JSON.stringify({ type: document.getElementById('type').value, obj: document.getElementById('obj').value, from: from, to: to }));
+            location.href = form.getAttribute('action');
+        });
+    });
+    </script>
 </body>
 </html>

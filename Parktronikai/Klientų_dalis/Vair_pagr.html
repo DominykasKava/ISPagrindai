@@ -1,21 +1,60 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="lt">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pagrindinis</title>
+    <title>Vairuotojo pagrindinis langas</title>
+    <link rel="stylesheet" href="../assets/styles.css">
+    <script src="../assets/app.js" defer></script>
 </head>
 <body>
-    <a href="Ats_patv.html" style="display: inline-block; padding: 10px 20px; background-color: #007BFF; color: white; text-decoration: none; border-radius: 5px;">Atsijungti</a>
-    <a href="Pask_perz.html" style="display: inline-block; padding: 10px 20px; background-color: #007BFF; color: white; text-decoration: none; border-radius: 5px;">Paskyra</a>
-    <a href="..//Privačios_parkavimo_vietos/Aiks_sav_pagr.html" style="display: inline-block; padding: 10px 20px; background-color: #007BFF; color: white; text-decoration: none; border-radius: 5px;">Aikstelių sąvininko puslapis</a>
-    <a href="..//Administravimas/Admin_pagr.html" style="display: inline-block; padding: 10px 20px; background-color: #007BFF; color: white; text-decoration: none; border-radius: 5px;">Administracijos puslapis</a>
-    
-    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; gap: 10px; font-family: sans-serif;">
+    <header class="topbar">
+        <div class="brand"><span class="brand-mark">P</span>Parktronikai <small>Parkavimo vietų informacinė sistema</small></div>
+        <span class="role-badge" data-role-label></span>
+    </header>
 
-    <a href="Ivaz_tikr.html" style="display: inline-block; padding: 10px 20px; background-color: #007BFF; color: white; text-decoration: none; border-radius: 5px;">Numerių skenavimas</a>
-    <a href="Zon_info.html" style="display: inline-block; padding: 10px 20px; background-color: #007BFF; color: white; text-decoration: none; border-radius: 5px;">Zonos informacija</a>
+    <main class="container">
+        <div class="window-header">
+            <div>
+                <div class="window-kind">Puslapis</div>
+                <h1>Vairuotojo pagrindinis langas</h1>
+                <p class="window-desc">Parkavimo zonų žemėlapis. Paspauskite zoną, kad atidarytumėte jos informaciją.</p>
+            </div>
+        </div>
 
-    </div>
+        <div class="layout-side">
+            <section class="card">
+                <h2>Parkavimo zonos žemėlapyje</h2>
+                <svg class="map" id="map" role="img" aria-label="Parkavimo zonų žemėlapis"></svg>
+                <div class="legend">
+                    <span><i class="l-free"></i>Laisvų vietų yra</span>
+                    <span><i class="l-warn"></i>Beveik pilna</span>
+                    <span><i class="l-full"></i>Užimta</span>
+                    <span><i class="l-off"></i>Neaktyvi</span>
+                </div>
+            </section>
+            <section class="card">
+                <h2>Zonų sąrašas</h2>
+                <ul class="zone-list" id="zone-list"></ul>
+                <p class="hint">Zoną galima pasirinkti žemėlapyje arba sąraše.</p>
+            </section>
+        </div>
+    </main>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        PT.set('picked', null); // kiekvieną kartą zona pasirenkama iš naujo
+        var link = function (z) { return 'Zon_info.html?zona=' + z.id; };
+        PT.renderMap(document.getElementById('map'), { link: link });
+        var list = document.getElementById('zone-list');
+        Object.keys(PT.ZONES).forEach(function (id) {
+            var z = PT.ZONES[id], st = PT.ZONE_STATUS[z.busena];
+            var li = document.createElement('li');
+            li.innerHTML = '<a href="' + link(z) + '" title="Zonos informacijos langas"><span><strong>' + PT.esc(z.Zonos_pavadinimas) +
+                '</strong><br><span class="hint">' + PT.money(z.Tarifas_val) + '/val.</span></span><span class="badge ' + st.badge + '">' + st.label + '</span></a>';
+            list.appendChild(li);
+        });
+    });
+    </script>
 </body>
 </html>

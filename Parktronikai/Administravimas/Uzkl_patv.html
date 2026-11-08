@@ -1,15 +1,63 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="lt">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Užklausos tikrinimas</title>
+    <title>Užklausos patvirtinimo langas</title>
+    <link rel="stylesheet" href="../assets/styles.css">
+    <script src="../assets/app.js" defer></script>
 </head>
-<body>
-    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; gap: 10px; font-family: sans-serif;">
-        <p>Ar patvirtinti užklausą?</p>
-        <a href="Uzkl_perz.html" style="display: inline-block; padding: 10px 20px; background-color: #007BFF; color: white; text-decoration: none; border-radius: 5px;">Taip</a>
-        <a href="Uzkl_perz.html" style="display: inline-block; padding: 10px 20px; background-color: #007BFF; color: white; text-decoration: none; border-radius: 5px;">Ne</a>
+<body class="dialog-page">
+    <iframe class="dialog-bg" src="Uzkl_perz.html" tabindex="-1" aria-hidden="true" inert></iframe>
+    <div class="dialog-overlay">
+        <form class="dialog" id="dlg" role="dialog" aria-modal="true" aria-labelledby="dlg-title" novalidate>
+            <div class="window-header">
+                <div>
+                    <div class="window-kind">Dialogas</div>
+                    <h1 id="dlg-title">Užklausos patvirtinimo langas</h1>
+                </div>
+            </div>
+            <div class="dialog-body">
+                <div class="alert alert-success" id="approved" hidden><span class="icon">✓</span><span>Užklausa patvirtinta. Aikštelės savininkui išsiųstas pranešimas.</span></div>
+                <div class="alert alert-error" id="rejected" hidden><span class="icon">✕</span><span>Užklausa atmesta. Aikštelės savininkui pranešta, kad užklausa nepatvirtinta.</span></div>
+                <div data-hide-on-success>
+                    <dl class="kv">
+                        <dt>Tipas</dt><dd>Automobilių registravimas</dd>
+                        <dt>Naudotojas</dt><dd>Ona Petraitė</dd>
+                        <dt>Aikštelė</dt><dd>Verslo centras „Nemunas“</dd>
+                        <dt>Pateikimo data</dt><dd>2026-11-05</dd>
+                        <dt>Galioja iki</dt><dd>2027-12-31</dd>
+                    </dl>
+                    <h2 style="margin-top:14px">Automobiliai</h2>
+                    <table class="table">
+                        <thead><tr><th>Valstybinis numeris</th><th>Sprendimas</th></tr></thead>
+                        <tbody>
+                            <tr><td><span class="plate">LMN 789</span></td><td><select aria-label="Sprendimas LMN 789"><option>Patvirtinti</option><option>Atmesti</option></select></td></tr>
+                            <tr><td><span class="plate">RTA 310</span></td><td><select aria-label="Sprendimas RTA 310"><option>Patvirtinti</option><option>Atmesti</option></select></td></tr>
+                            <tr><td><span class="plate">BBK 777</span></td><td><select aria-label="Sprendimas BBK 777"><option>Patvirtinti</option><option selected>Atmesti</option></select></td></tr>
+                        </tbody>
+                    </table>
+                    <div class="field" style="margin-top:12px">
+                        <label for="comment">Administratoriaus komentaras</label>
+                        <textarea id="comment" placeholder="Neprivaloma"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="dialog-actions">
+                <a class="btn btn-secondary" href="Uzkl_perz.html" data-close data-hide-on-success>Atšaukti</a>
+                <a class="btn btn-secondary" href="Uzkl_perz.html" data-close data-show-on-success hidden>Uždaryti</a>
+                <button class="btn btn-danger" type="button" id="reject" data-hide-on-success>Atmesti užklausą</button>
+                <button class="btn btn-primary" type="submit" data-hide-on-success>Patvirtinti užklausą</button>
+            </div>
+        </form>
     </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var form = document.getElementById('dlg');
+        form.addEventListener('submit', function (e) { e.preventDefault(); PT.showSuccess(form, 'approved'); });
+        document.getElementById('reject').addEventListener('click', function () { PT.showSuccess(form, 'rejected'); });
+    });
+    </script>
 </body>
 </html>

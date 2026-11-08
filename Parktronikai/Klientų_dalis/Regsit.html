@@ -1,14 +1,52 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="lt">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registracija</title>
+    <title>Registracijos langas</title>
+    <link rel="stylesheet" href="../assets/styles.css">
+    <script src="../assets/app.js" defer></script>
 </head>
 <body>
-    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; gap: 10px; font-family: sans-serif;">
-        <a href="Vair_pagr.html" style="display: inline-block; padding: 10px 20px; background-color: #007BFF; color: white; text-decoration: none; border-radius: 5px;">Prisiregistruoti</a>
-        <a href="..//index.html" style="display: inline-block; padding: 10px 20px; background-color: #007BFF; color: white; text-decoration: none; border-radius: 5px;">Prisijungimas</a>
-    </div>
+    <header class="topbar">
+        <div class="brand"><span class="brand-mark">P</span>Parktronikai <small>Parkavimo vietų informacinė sistema</small></div>
+        <span class="role-badge" data-role-label></span>
+    </header>
+
+    <main class="container narrow">
+        <div class="window-header">
+            <div>
+                <div class="window-kind">Puslapis</div>
+                <h1>Registracijos langas</h1>
+                <p class="window-desc">Registruojamasi kaip vairuotojas. Rolę gali pakeisti administratorius.</p>
+            </div>
+            <a class="btn btn-secondary btn-sm" href="../index.html" data-back>Grįžti</a>
+        </div>
+
+        <!-- Registruotis -> Vairuotojo pagrindinis langas -->
+        <form class="card" action="Vair_pagr.html" method="get" novalidate data-validate>
+            <input type="hidden" name="role" value="vairuotojas">
+            <div class="alert alert-error" data-form-error hidden><span class="icon">✕</span><span>Kai kurie registracijos formos laukai užpildyti netinkamai.</span></div>
+            <div class="form-grid">
+                <div class="field"><label for="r-vardas">Vardas</label><input id="r-vardas" type="text" data-required></div>
+                <div class="field"><label for="r-pavarde">Pavardė</label><input id="r-pavarde" type="text" data-required></div>
+                <div class="field"><label for="r-email">El. paštas</label><input id="r-email" type="email" data-required placeholder="vardas@example.lt"></div>
+                <div class="field"><label for="r-tel">Telefono numeris</label><input id="r-tel" type="tel" placeholder="+370 6xx xxxxx"></div>
+                <div class="field"><label for="r-pass">Slaptažodis</label><input id="r-pass" type="password" data-required></div>
+                <div class="field"><label for="r-pass2">Pakartokite slaptažodį</label><input id="r-pass2" type="password" data-required data-match="r-pass"></div>
+            </div>
+            <fieldset>
+                <legend>Transporto priemonė (neprivaloma)</legend>
+                <div class="form-grid">
+                    <div class="field"><label for="r-nr">Valstybinis numeris</label><input id="r-nr" type="text" placeholder="ABC 123"></div>
+                    <div class="field"><label for="r-marke">Markė</label><input id="r-marke" type="text" placeholder="Toyota"></div>
+                    <div class="field"><label for="r-modelis">Modelis</label><input id="r-modelis" type="text" placeholder="Corolla"></div>
+                </div>
+            </fieldset>
+            <div class="form-actions">
+                <button class="btn btn-primary" type="submit" title="Vairuotojo pagrindinis langas">Registruotis</button>
+            </div>
+        </form>
+    </main>
 </body>
 </html>

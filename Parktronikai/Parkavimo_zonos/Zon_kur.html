@@ -1,13 +1,77 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="lt">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zonos kūrimas</title>
+    <title>Zonos duomenų įvedimo langas</title>
+    <link rel="stylesheet" href="../assets/styles.css">
+    <script src="../assets/app.js" defer></script>
 </head>
 <body>
-    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; gap: 10px; font-family: sans-serif;">
-        <a href="Zon_vald.html" style="display: inline-block; padding: 10px 20px; background-color: #007BFF; color: white; text-decoration: none; border-radius: 5px;">Sukurti</a>
-    </div>
+    <header class="topbar">
+        <div class="brand"><span class="brand-mark">P</span>Parktronikai <small>Parkavimo vietų informacinė sistema</small></div>
+        <span class="role-badge" data-role-label></span>
+    </header>
+
+    <main class="container">
+        <div class="window-header">
+            <div>
+                <div class="window-kind">Puslapis</div>
+                <h1>Zonos duomenų įvedimo langas</h1>
+                <p class="window-desc">Pažymėkite naujos zonos ribas žemėlapyje ir įveskite zonos duomenis.</p>
+            </div>
+            <a class="btn btn-secondary btn-sm" href="Zon_vald.html" data-back>Grįžti</a>
+        </div>
+
+        <div class="layout-side">
+            <section class="card">
+                <h2>Zonos ribos</h2>
+                <p class="hint">Spauskite žemėlapyje, kad pažymėtumėte ribos taškus (reikia bent 3). Pažymėta taškų: <strong id="count">0</strong></p>
+                <svg class="map muted" id="map" role="img" aria-label="Zonos ribų žymėjimas žemėlapyje"></svg>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary btn-sm" id="undo">Atšaukti paskutinį tašką</button>
+                    <button type="button" class="btn btn-secondary btn-sm" id="clear">Išvalyti taškus</button>
+                </div>
+            </section>
+
+            <section class="card">
+                <h2>Zonos duomenys</h2>
+                <div class="stack">
+                    <div class="field"><label for="z-name">Zonos pavadinimas</label><input id="z-name" type="text" value="E zona – Aleksotas"></div>
+                    <div class="field"><label for="z-addr">Adresas</label><input id="z-addr" type="text" value="Veiverių g., Kaunas"></div>
+                    <div class="field"><label for="z-tarif">Tarifas (€/val.)</label><input id="z-tarif" type="number" step="0.05" value="0.60"></div>
+                    <div class="field"><label for="z-int">Skaičiuojamas intervalas (min.)</label><input id="z-int" type="number" value="30"></div>
+                    <div class="field"><label for="z-pay">Mokėjimo gavėjas</label><input id="z-pay" type="text" value="Kauno miesto savivaldybė"></div>
+                    <label class="choice"><input type="checkbox" checked> Zona aktyvi</label>
+                </div>
+            </section>
+        </div>
+
+        <section class="card">
+            <h2>Apmokestinimo laikas</h2>
+            <table class="table">
+                <thead><tr><th>Diena</th><th>Pradžios laikas</th><th>Pabaigos laikas</th></tr></thead>
+                <tbody>
+                    <tr><td><select aria-label="Diena"><option>Pirmadienis–Penktadienis</option><option>Šeštadienis</option><option>Sekmadienis</option></select></td><td><input type="time" value="08:00" aria-label="Pradžios laikas"></td><td><input type="time" value="18:00" aria-label="Pabaigos laikas"></td></tr>
+                    <tr><td><select aria-label="Diena"><option>Pirmadienis–Penktadienis</option><option selected>Šeštadienis</option><option>Sekmadienis</option></select></td><td><input type="time" value="10:00" aria-label="Pradžios laikas"></td><td><input type="time" value="16:00" aria-label="Pabaigos laikas"></td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <div class="form-actions">
+            <a class="btn btn-primary" href="Zon_prid_patv.html" title="Zonos pridėjimo patvirtinimo langas">Išsaugoti zoną</a>
+            <a class="btn btn-secondary" href="Zon_vald.html" data-back>Atšaukti</a>
+        </div>
+    </main>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var svg = document.getElementById('map');
+        PT.renderMap(svg, { muted: true });
+        var editor = PT.mapEditor(svg, [], document.getElementById('count'));
+        document.getElementById('undo').onclick = editor.undo;
+        document.getElementById('clear').onclick = editor.clear;
+    });
+    </script>
 </body>
 </html>
